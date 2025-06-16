@@ -1,13 +1,14 @@
 {
-  "name": "frontend",
+  "name": "stepful-qw-benjipt",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "dev": "cd frontend && vite",
+    "build": "cd frontend && tsc -b && vite build",
+    "lint": "cd frontend && eslint .",
+    "preview": "cd frontend && vite preview",
+    "start:backend": "cd backend && bin/rails server"
   },
   "dependencies": {
     "react": "^18.3.1",
