@@ -1,3 +1,9 @@
+# Load .env early for Puma if in development or test
+if %w[development test].include?(ENV['RAILS_ENV']) || ENV['RACK_ENV'] == 'development'
+  require 'dotenv'
+  Dotenv.load(File.expand_path('../../.env', __dir__))
+end
+
 # This configuration file will be evaluated by Puma. The top-level methods that
 # are invoked here are part of Puma's configuration DSL. For more information
 # about methods provided by the DSL, see https://puma.io/puma/Puma/DSL.html.
@@ -28,7 +34,8 @@ threads_count = ENV.fetch("RAILS_MAX_THREADS", 3)
 threads threads_count, threads_count
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
-port ENV.fetch("PORT", 3000)
+dev_port = ENV.fetch("VITE_BACKEND_PORT", 3000)
+port ENV.fetch("PORT", dev_port)
 
 # Allow puma to be restarted by `bin/rails restart` command.
 plugin :tmp_restart
