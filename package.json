@@ -11,6 +11,7 @@
     "start:backend": "cd backend && bin/rails server"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.80.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
