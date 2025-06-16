@@ -11,9 +11,11 @@
     "start:backend": "cd backend && bin/rails server"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.10",
     "@tanstack/react-query": "^5.80.7",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^4.1.10"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
