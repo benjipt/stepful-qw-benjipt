@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "cd frontend && vite",
     "build": "cd frontend && tsc -b && vite build",
-    "lint": "cd frontend && bunx biome check --write src/",
     "preview": "cd frontend && vite preview",
+    "lint:fe": "cd frontend && bunx biome check --write src/",
+    "lint:be": "cd backend && bin/rubocop -A",
     "start:backend": "cd backend && bin/rails server"
   },
   "dependencies": {

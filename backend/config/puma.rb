@@ -1,7 +1,7 @@
 # Load .env early for Puma if in development or test
-if %w[development test].include?(ENV['RAILS_ENV']) || ENV['RACK_ENV'] == 'development'
-  require 'dotenv'
-  Dotenv.load(File.expand_path('../../.env', __dir__))
+if %w[development test].include?(ENV["RAILS_ENV"]) || ENV["RACK_ENV"] == "development"
+  require "dotenv"
+  Dotenv.load(File.expand_path("../../.env", __dir__))
 end
 
 # This configuration file will be evaluated by Puma. The top-level methods that
