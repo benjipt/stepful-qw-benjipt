@@ -1,7 +1,7 @@
 # Load .env early for Puma if in development or test
-if %w[development test].include?(ENV["RAILS_ENV"]) || ENV["RACK_ENV"] == "development"
-  require "dotenv"
-  Dotenv.load(File.expand_path("../../.env", __dir__))
+if %w[development test].include?(ENV['RAILS_ENV']) || ENV['RACK_ENV'] == 'development'
+  require 'dotenv'
+  Dotenv.load(File.expand_path('../../.env', __dir__))
 end
 
 # This configuration file will be evaluated by Puma. The top-level methods that
@@ -30,19 +30,19 @@ end
 # Any libraries that use a connection pool or another resource pool should
 # be configured to provide at least as many connections as the number of
 # threads. This includes Active Record's `pool` parameter in `database.yml`.
-threads_count = ENV.fetch("RAILS_MAX_THREADS", 3)
+threads_count = ENV.fetch('RAILS_MAX_THREADS', 3)
 threads threads_count, threads_count
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
-dev_port = ENV.fetch("VITE_BACKEND_PORT", 3000)
-port ENV.fetch("PORT", dev_port)
+dev_port = ENV.fetch('VITE_BACKEND_PORT', 3000)
+port ENV.fetch('PORT', dev_port)
 
 # Allow puma to be restarted by `bin/rails restart` command.
 plugin :tmp_restart
 
 # Run the Solid Queue supervisor inside of Puma for single-server deployments
-plugin :solid_queue if ENV["SOLID_QUEUE_IN_PUMA"]
+plugin :solid_queue if ENV['SOLID_QUEUE_IN_PUMA']
 
 # Specify the PID file. Defaults to tmp/pids/server.pid in development.
 # In other environments, only set the PID file if requested.
-pidfile ENV["PIDFILE"] if ENV["PIDFILE"]
+pidfile ENV['PIDFILE'] if ENV['PIDFILE']
