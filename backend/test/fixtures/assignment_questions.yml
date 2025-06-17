@@ -2,10 +2,10 @@
 
 one:
   assignment: one
-  quesion_content: MyString
+  question_content: MyString
   choices: MyString
 
 two:
   assignment: two
-  quesion_content: MyString
+  question_content: MyString
   choices: MyString
