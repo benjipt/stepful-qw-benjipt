@@ -1,0 +1,5 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - run: bun run lint
+      stage_fixed: true
