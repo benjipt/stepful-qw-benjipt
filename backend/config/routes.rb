@@ -7,7 +7,5 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :users, only: [ :index ]
-    # TODO: Remove this hello_world route
-    get "hello_world", to: "hello_world#index"
   end
 end
