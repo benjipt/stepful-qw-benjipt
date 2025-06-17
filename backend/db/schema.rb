@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_17_200835) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_17_203514) do
   create_table "assignment_questions", force: :cascade do |t|
     t.integer "assignment_id", null: false
     t.string "question_content"
@@ -25,6 +25,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_17_200835) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "user_assignment_questions", force: :cascade do |t|
+    t.integer "user_assignment_id", null: false
+    t.integer "assignment_question_id", null: false
+    t.text "response"
+    t.boolean "correct"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assignment_question_id"], name: "index_user_assignment_questions_on_assignment_question_id"
+    t.index ["user_assignment_id"], name: "index_user_assignment_questions_on_user_assignment_id"
   end
 
   create_table "user_assignments", force: :cascade do |t|
@@ -48,6 +59,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_17_200835) do
   end
 
   add_foreign_key "assignment_questions", "assignments"
+  add_foreign_key "user_assignment_questions", "assignment_questions"
+  add_foreign_key "user_assignment_questions", "user_assignments"
   add_foreign_key "user_assignments", "assignments"
   add_foreign_key "user_assignments", "users"
 end
