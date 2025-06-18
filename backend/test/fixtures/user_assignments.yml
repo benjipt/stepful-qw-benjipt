@@ -3,13 +3,31 @@
 one:
   user: one
   assignment: one
-  status: MyString
+  status: in_progress
   started_at: 2025-06-17 16:13:33
-  completed_at: 2025-06-17 16:13:33
+  completed_at: 
+  score: 
 
 two:
   user: two
   assignment: two
-  status: MyString
+  status: complete
   started_at: 2025-06-17 16:13:33
   completed_at: 2025-06-17 16:13:33
+  score: 85
+
+invalid_score:
+  user: one
+  assignment: one
+  status: complete
+  started_at: 2025-06-17 16:13:33
+  completed_at: 2025-06-17 16:13:33
+  score: 150
+
+missing_score_complete:
+  user: one
+  assignment: one
+  status: complete
+  started_at: 2025-06-17 16:13:33
+  completed_at: 2025-06-17 16:13:33
+  score: 

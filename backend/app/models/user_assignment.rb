@@ -9,6 +9,8 @@ class UserAssignment < ApplicationRecord
   }.freeze
 
   validates :status, inclusion: { in: STATUSES.values }
+  validates :score, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, allow_nil: true }
+  validate :score_presence_and_range_for_complete
 
   # Class methods to access statuses
   def self.statuses
@@ -26,5 +28,17 @@ class UserAssignment < ApplicationRecord
 
   def complete?
     status == STATUSES[:complete]
+  end
+
+  private
+
+  def score_presence_and_range_for_complete
+    if complete?
+      if score.nil?
+        errors.add(:score, 'must be present if status is complete')
+      elsif !(0..100).include?(score)
+        errors.add(:score, 'must be between 0 and 100')
+      end
+    end
   end
 end
