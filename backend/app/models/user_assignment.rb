@@ -11,6 +11,7 @@ class UserAssignment < ApplicationRecord
   validates :status, inclusion: { in: STATUSES.values }
   validates :score, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, allow_nil: true }
   validate :score_presence_and_range_for_complete
+  validate :score_nil_unless_complete
 
   # Class methods to access statuses
   def self.statuses
@@ -39,6 +40,12 @@ class UserAssignment < ApplicationRecord
       elsif !(0..100).include?(score)
         errors.add(:score, 'must be between 0 and 100')
       end
+    end
+  end
+
+  def score_nil_unless_complete
+    unless complete?
+      errors.add(:score, 'must be nil unless status is complete') unless score.nil?
     end
   end
 end

@@ -34,4 +34,17 @@ class UserAssignmentTest < ActiveSupport::TestCase
     ua = UserAssignment.new(user: users(:one), assignment: assignments(:one), status: UserAssignment.statuses[:complete], score: 100)
     assert ua.valid?
   end
+
+  test 'score must be nil if status is not complete' do
+    ua = UserAssignment.new(user: users(:one), assignment: assignments(:one), status: UserAssignment.statuses[:in_progress], score: 10)
+    assert_not ua.valid?
+    assert_includes ua.errors[:score], 'must be nil unless status is complete'
+
+    ua.score = 0
+    assert_not ua.valid?
+    assert_includes ua.errors[:score], 'must be nil unless status is complete'
+
+    ua.score = nil
+    assert ua.valid?
+  end
 end
