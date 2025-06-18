@@ -28,6 +28,7 @@
     "@vitejs/plugin-react": "^4.3.1",
     "globals": "^15.9.0",
     "lefthook": "^1.11.14",
+    "openapi-typescript": "^7.8.0",
     "typescript": "^5.5.3",
     "vite": "^5.4.1"
   }
