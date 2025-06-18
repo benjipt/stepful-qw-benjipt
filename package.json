@@ -10,6 +10,7 @@
     "lint:fe": "cd frontend && bunx biome check --write src/",
     "lint:be": "cd backend && bin/rubocop -A",
     "test:be": "cd backend && bin/rails test",
+    "generate:openapi": "cd backend && RAILS_ENV=test bin/rails rswag",
     "start:backend": "cd backend && bin/rails server"
   },
   "dependencies": {
