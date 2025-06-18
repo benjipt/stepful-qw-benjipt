@@ -25,8 +25,6 @@ frontend/*.ntvs*
 frontend/*.njsproj
 frontend/*.sln
 frontend/*.sw?
-# Ignore generated TanStack Router route tree
-frontend/src/routeTree.gen.ts
 
 # Backend (Ruby on Rails)
 backend/log/
