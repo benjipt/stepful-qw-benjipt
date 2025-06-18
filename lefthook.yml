@@ -7,6 +7,6 @@ pre-commit:
     - run: bun lint:be && bun test:be
       glob: "backend/**/*"
       stage_fixed: true
-    - run: bun generate:openapi
-      glob: "backend/app/controllers/**/*,backend/app/serializers/**/*"
+    - run: bun generate:openapi:be && bun generate:openapi:fe
+      glob: "backend/app/controllers/**/*,backend/app/serializers/**/*,backend/spec/**/*"
       stage_fixed: true
