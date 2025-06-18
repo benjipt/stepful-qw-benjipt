@@ -1,6 +1,7 @@
 import tailwindcss from '@tailwindcss/vite';
-import { tanstackRouter } from '@tanstack/router-plugin/vite'
+import { tanstackRouter } from '@tanstack/router-plugin/vite';
 import react from '@vitejs/plugin-react';
+import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 
 export default defineConfig(({ mode }) => {
@@ -11,12 +12,19 @@ export default defineConfig(({ mode }) => {
     plugins: [
       tanstackRouter({
         target: 'react',
-        autoCodeSplitting: true,
+        // TODO: Determine source of issue with autoCodeSplitting resulting in errors and enable
+        autoCodeSplitting: false
       }),
       react(),
-      tailwindcss()],
+      tailwindcss()
+    ],
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src')
+      }
+    },
     server: {
-      port: Number(env.VITE_FRONTEND_PORT) || 5173,
+      port: Number(env.VITE_FRONTEND_PORT) || 5173
     }
   };
 });
