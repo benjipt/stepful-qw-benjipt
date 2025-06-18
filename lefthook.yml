@@ -4,6 +4,6 @@ pre-commit:
     - run: bun lint:fe
       glob: "frontend/**/*"
       stage_fixed: true
-    - run: bun lint:be
+    - run: bun lint:be && bun test:be
       glob: "backend/**/*"
       stage_fixed: true
