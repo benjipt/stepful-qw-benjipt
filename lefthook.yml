@@ -2,11 +2,14 @@ pre-commit:
   parallel: true
   jobs:
     - run: bun lint:fe
+      name: "Lint and format frontend"
       glob: "frontend/**/*"
       stage_fixed: true
     - run: bun lint:be && bun test:be
+      name: "Lint, format, and test backend"
       glob: "backend/**/*"
       stage_fixed: true
-    - run: bun generate:openapi:be && bun generate:openapi:fe
+    - run: bun generate:openapi:be && bun generate:openapi:fe && bun check:types
+      name: "Generate API types and type-check frontend"
       glob: "backend/app/controllers/**/*,backend/app/serializers/**/*,backend/spec/**/*"
       stage_fixed: true
