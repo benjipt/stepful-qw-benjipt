@@ -63,3 +63,14 @@ assignments_data.each do |assignment_data|
     aq.save!
   end
 end
+
+# --- USER ASSIGNMENTS ---
+User.find_each do |user|
+  Assignment.find_each do |assignment|
+    UserAssignment.find_or_create_by!(
+      user: user,
+      assignment: assignment,
+      status: UserAssignment::STATUSES[:not_yet_started]
+    )
+  end
+end
