@@ -7,6 +7,7 @@ one:
   started_at: 2025-06-17 16:13:33
   completed_at: 
   score: 
+  created_at: 2025-06-17 16:13:33
 
 two:
   user: two
@@ -15,6 +16,7 @@ two:
   started_at: 2025-06-17 16:13:33
   completed_at: 2025-06-17 16:13:33
   score: 85
+  created_at: 2025-06-17 16:13:33
 
 invalid_score:
   user: one
@@ -23,6 +25,7 @@ invalid_score:
   started_at: 2025-06-17 16:13:33
   completed_at: 2025-06-17 16:13:33
   score: 150
+  created_at: 2025-06-18 10:00:00
 
 missing_score_complete:
   user: one
@@ -30,4 +33,5 @@ missing_score_complete:
   status: complete
   started_at: 2025-06-17 16:13:33
   completed_at: 2025-06-17 16:13:33
-  score: 
+  score:
+  created_at: 2025-06-18 12:00:00
