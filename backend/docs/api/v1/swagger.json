@@ -5,17 +5,17 @@
     "version": "v1"
   },
   "paths": {
-    "/api/assignments/{assignmentId}/questions": {
+    "/api/user_assignments/{userAssignmentId}/questions": {
       "get": {
-        "summary": "Returns all assignment questions for a given assignment",
+        "summary": "Returns all assignment questions for a given user assignment, including user responses if present",
         "tags": [
-          "AssignmentQuestions"
+          "UserAssignmentQuestions"
         ],
         "parameters": [
           {
-            "name": "assignmentId",
+            "name": "userAssignmentId",
             "in": "path",
-            "description": "Assignment ID (camelCase)",
+            "description": "User Assignment ID",
             "required": true,
             "schema": {
               "type": "string"
@@ -44,12 +44,17 @@
                           "type": "string"
                         },
                         "nullable": true
+                      },
+                      "response": {
+                        "type": "string",
+                        "nullable": true
                       }
                     },
                     "required": [
                       "questionId",
                       "content",
-                      "choices"
+                      "choices",
+                      "response"
                     ]
                   }
                 }
@@ -57,7 +62,7 @@
             }
           },
           "404": {
-            "description": "assignment not found"
+            "description": "user assignment not found"
           }
         }
       }

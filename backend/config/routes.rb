@@ -8,9 +8,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :users, only: [ :index ]
-    resources :user_assignments, only: [ :index ]
-    resources :assignments, only: [] do
-      resources :questions, only: [ :index ], controller: 'assignment_questions'
+    resources :user_assignments, only: [ :index ] do
+      resources :questions, only: [ :index ], controller: 'user_assignment_questions'
     end
   end
 end

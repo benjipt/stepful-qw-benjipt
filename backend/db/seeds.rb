@@ -119,6 +119,7 @@ if first_user && first_assignment
       user_assignment: user_assignment,
       assignment_question: aq
     )
+    uaq.assignment = first_assignment
     uaq.response = response_value
     uaq.correct = true
     uaq.save!

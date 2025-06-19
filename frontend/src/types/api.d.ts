@@ -4,21 +4,21 @@
  */
 
 export interface paths {
-  '/api/assignments/{assignmentId}/questions': {
+  '/api/user_assignments/{userAssignmentId}/questions': {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    /** Returns all assignment questions for a given assignment */
+    /** Returns all assignment questions for a given user assignment, including user responses if present */
     get: {
       parameters: {
         query?: never;
         header?: never;
         path: {
-          /** @description Assignment ID (camelCase) */
-          assignmentId: string;
+          /** @description User Assignment ID */
+          userAssignmentId: string;
         };
         cookie?: never;
       };
@@ -34,10 +34,11 @@ export interface paths {
               questionId: number;
               content: string;
               choices: string[] | null;
+              response: string | null;
             }[];
           };
         };
-        /** @description assignment not found */
+        /** @description user assignment not found */
         404: {
           headers: {
             [name: string]: unknown;

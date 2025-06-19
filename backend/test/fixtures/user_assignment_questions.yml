@@ -3,11 +3,13 @@
 one:
   user_assignment: one
   assignment_question: one
+  assignment: one
   response: MyText
   correct: false
 
 two:
   user_assignment: two
   assignment_question: two
+  assignment: two
   response: MyText
   correct: false
