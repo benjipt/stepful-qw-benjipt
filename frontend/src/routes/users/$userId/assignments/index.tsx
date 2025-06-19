@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { loadUserAssignments } from '@/lib/loaders';
-import { humanizeDuration, humanizeStatus } from '@/lib/utils';
+import { cn, humanizeDuration, humanizeStatus } from '@/lib/utils';
 
 export const Route = createFileRoute('/users/$userId/assignments/')({
   loader: async ({ params }) =>
@@ -21,13 +21,18 @@ function UserAssignments() {
   const userAssignments = Route.useLoaderData();
 
   return (
-    <div className='flex flex-col gap-4 mt-20 px-8 items-center'>
+    <div className='flex flex-col gap-4 mt-20 px-8 justify-center'>
       {userAssignments.map(
         ({ assignmentId, title, status, score, totalTimeSpent }) => (
           <Card key={assignmentId}>
             <CardHeader>
-              <CardTitle className='tracking-tight'>{title}</CardTitle>
-              <CardDescription className='antialiased text-sm'>
+              <CardTitle>{title}</CardTitle>
+              <CardDescription
+                className={cn(
+                  'font-medium',
+                  status === 'complete' && 'text-emerald-800',
+                )}
+              >
                 {humanizeStatus(status)}
               </CardDescription>
             </CardHeader>
