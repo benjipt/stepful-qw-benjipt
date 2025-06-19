@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root';
 import { Route as IndexRouteImport } from './routes/index';
+import { Route as UsersUserIdAssignmentsAssignmentIdIndexRouteImport } from './routes/users/$userId/assignments/$assignmentId/index';
 import { Route as UsersUserIdAssignmentsIndexRouteImport } from './routes/users/$userId/assignments/index';
 import { Route as UsersUserIdIndexRouteImport } from './routes/users/$userId/index';
 import { Route as UsersIndexRouteImport } from './routes/users/index';
@@ -35,18 +36,26 @@ const UsersUserIdAssignmentsIndexRoute =
     path: '/users/$userId/assignments/',
     getParentRoute: () => rootRouteImport,
   } as any);
+const UsersUserIdAssignmentsAssignmentIdIndexRoute =
+  UsersUserIdAssignmentsAssignmentIdIndexRouteImport.update({
+    id: '/users/$userId/assignments/$assignmentId/',
+    path: '/users/$userId/assignments/$assignmentId/',
+    getParentRoute: () => rootRouteImport,
+  } as any);
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute;
   '/users': typeof UsersIndexRoute;
   '/users/$userId': typeof UsersUserIdIndexRoute;
   '/users/$userId/assignments': typeof UsersUserIdAssignmentsIndexRoute;
+  '/users/$userId/assignments/$assignmentId': typeof UsersUserIdAssignmentsAssignmentIdIndexRoute;
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute;
   '/users': typeof UsersIndexRoute;
   '/users/$userId': typeof UsersUserIdIndexRoute;
   '/users/$userId/assignments': typeof UsersUserIdAssignmentsIndexRoute;
+  '/users/$userId/assignments/$assignmentId': typeof UsersUserIdAssignmentsAssignmentIdIndexRoute;
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport;
@@ -54,18 +63,30 @@ export interface FileRoutesById {
   '/users/': typeof UsersIndexRoute;
   '/users/$userId/': typeof UsersUserIdIndexRoute;
   '/users/$userId/assignments/': typeof UsersUserIdAssignmentsIndexRoute;
+  '/users/$userId/assignments/$assignmentId/': typeof UsersUserIdAssignmentsAssignmentIdIndexRoute;
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: '/' | '/users' | '/users/$userId' | '/users/$userId/assignments';
+  fullPaths:
+    | '/'
+    | '/users'
+    | '/users/$userId'
+    | '/users/$userId/assignments'
+    | '/users/$userId/assignments/$assignmentId';
   fileRoutesByTo: FileRoutesByTo;
-  to: '/' | '/users' | '/users/$userId' | '/users/$userId/assignments';
+  to:
+    | '/'
+    | '/users'
+    | '/users/$userId'
+    | '/users/$userId/assignments'
+    | '/users/$userId/assignments/$assignmentId';
   id:
     | '__root__'
     | '/'
     | '/users/'
     | '/users/$userId/'
-    | '/users/$userId/assignments/';
+    | '/users/$userId/assignments/'
+    | '/users/$userId/assignments/$assignmentId/';
   fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
@@ -73,6 +94,7 @@ export interface RootRouteChildren {
   UsersIndexRoute: typeof UsersIndexRoute;
   UsersUserIdIndexRoute: typeof UsersUserIdIndexRoute;
   UsersUserIdAssignmentsIndexRoute: typeof UsersUserIdAssignmentsIndexRoute;
+  UsersUserIdAssignmentsAssignmentIdIndexRoute: typeof UsersUserIdAssignmentsAssignmentIdIndexRoute;
 }
 
 declare module '@tanstack/react-router' {
@@ -105,6 +127,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersUserIdAssignmentsIndexRouteImport;
       parentRoute: typeof rootRouteImport;
     };
+    '/users/$userId/assignments/$assignmentId/': {
+      id: '/users/$userId/assignments/$assignmentId/';
+      path: '/users/$userId/assignments/$assignmentId';
+      fullPath: '/users/$userId/assignments/$assignmentId';
+      preLoaderRoute: typeof UsersUserIdAssignmentsAssignmentIdIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
   }
 }
 
@@ -113,6 +142,8 @@ const rootRouteChildren: RootRouteChildren = {
   UsersIndexRoute: UsersIndexRoute,
   UsersUserIdIndexRoute: UsersUserIdIndexRoute,
   UsersUserIdAssignmentsIndexRoute: UsersUserIdAssignmentsIndexRoute,
+  UsersUserIdAssignmentsAssignmentIdIndexRoute:
+    UsersUserIdAssignmentsAssignmentIdIndexRoute,
 };
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
