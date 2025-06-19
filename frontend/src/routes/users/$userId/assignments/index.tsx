@@ -21,7 +21,7 @@ function UserAssignments() {
   const userAssignments = Route.useLoaderData();
 
   return (
-    <div className='flex flex-col gap-4 mt-20 px-8 justify-center'>
+    <div className='flex flex-col gap-4 mt-20 px-8 items-center'>
       {userAssignments.map(
         ({ assignmentId, title, status, score, totalTimeSpent }) => (
           <Card key={assignmentId}>
