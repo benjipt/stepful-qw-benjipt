@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root';
 import { Route as IndexRouteImport } from './routes/index';
+import { Route as UsersUserIdAssignmentsIndexRouteImport } from './routes/users/$userId/assignments/index';
+import { Route as UsersUserIdIndexRouteImport } from './routes/users/$userId/index';
 import { Route as UsersIndexRouteImport } from './routes/users/index';
 
 const IndexRoute = IndexRouteImport.update({
@@ -22,31 +24,55 @@ const UsersIndexRoute = UsersIndexRouteImport.update({
   path: '/users/',
   getParentRoute: () => rootRouteImport,
 } as any);
+const UsersUserIdIndexRoute = UsersUserIdIndexRouteImport.update({
+  id: '/users/$userId/',
+  path: '/users/$userId/',
+  getParentRoute: () => rootRouteImport,
+} as any);
+const UsersUserIdAssignmentsIndexRoute =
+  UsersUserIdAssignmentsIndexRouteImport.update({
+    id: '/users/$userId/assignments/',
+    path: '/users/$userId/assignments/',
+    getParentRoute: () => rootRouteImport,
+  } as any);
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute;
   '/users': typeof UsersIndexRoute;
+  '/users/$userId': typeof UsersUserIdIndexRoute;
+  '/users/$userId/assignments': typeof UsersUserIdAssignmentsIndexRoute;
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute;
   '/users': typeof UsersIndexRoute;
+  '/users/$userId': typeof UsersUserIdIndexRoute;
+  '/users/$userId/assignments': typeof UsersUserIdAssignmentsIndexRoute;
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport;
   '/': typeof IndexRoute;
   '/users/': typeof UsersIndexRoute;
+  '/users/$userId/': typeof UsersUserIdIndexRoute;
+  '/users/$userId/assignments/': typeof UsersUserIdAssignmentsIndexRoute;
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: '/' | '/users';
+  fullPaths: '/' | '/users' | '/users/$userId' | '/users/$userId/assignments';
   fileRoutesByTo: FileRoutesByTo;
-  to: '/' | '/users';
-  id: '__root__' | '/' | '/users/';
+  to: '/' | '/users' | '/users/$userId' | '/users/$userId/assignments';
+  id:
+    | '__root__'
+    | '/'
+    | '/users/'
+    | '/users/$userId/'
+    | '/users/$userId/assignments/';
   fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute;
   UsersIndexRoute: typeof UsersIndexRoute;
+  UsersUserIdIndexRoute: typeof UsersUserIdIndexRoute;
+  UsersUserIdAssignmentsIndexRoute: typeof UsersUserIdAssignmentsIndexRoute;
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +91,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersIndexRouteImport;
       parentRoute: typeof rootRouteImport;
     };
+    '/users/$userId/': {
+      id: '/users/$userId/';
+      path: '/users/$userId';
+      fullPath: '/users/$userId';
+      preLoaderRoute: typeof UsersUserIdIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    '/users/$userId/assignments/': {
+      id: '/users/$userId/assignments/';
+      path: '/users/$userId/assignments';
+      fullPath: '/users/$userId/assignments';
+      preLoaderRoute: typeof UsersUserIdAssignmentsIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   UsersIndexRoute: UsersIndexRoute,
+  UsersUserIdIndexRoute: UsersUserIdIndexRoute,
+  UsersUserIdAssignmentsIndexRoute: UsersUserIdAssignmentsIndexRoute,
 };
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
