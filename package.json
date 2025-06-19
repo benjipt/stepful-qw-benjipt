@@ -13,6 +13,7 @@
     "test:be": "cd backend && bin/rails test",
     "generate:openapi:be": "cd backend && RAILS_ENV=test bin/rails rswag",
     "generate:openapi:fe": "bunx openapi-typescript ./backend/docs/api/v1/swagger.json -o ./frontend/src/types/api.d.ts",
+    "generate:openapi": "bun generate:openapi:be && bun generate:openapi:fe",
     "check:types": "cd frontend && tsc --noEmit"
   },
   "dependencies": {
