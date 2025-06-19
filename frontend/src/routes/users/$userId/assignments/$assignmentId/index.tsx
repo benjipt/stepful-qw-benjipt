@@ -1,6 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { loadAssignmentQuestions } from '@/lib/loaders';
 
 export const Route = createFileRoute(
@@ -22,11 +24,24 @@ function AssignmentQuestions() {
           </CardHeader>
           <CardContent>
             {Array.isArray(question.choices) && question.choices.length > 0 && (
-              <ul className='list-disc pl-6 space-y-1'>
+              <RadioGroup
+                value={question.response ?? ''}
+                className='gap-2'
+                aria-label='Choices'
+              >
                 {question.choices.map((choice, idx) => (
-                  <li key={idx}>{choice}</li>
+                  <div className='flex items-center space-x-3'>
+                    <RadioGroupItem
+                      key={idx}
+                      value={choice}
+                      id={`q${question.questionId}-choice${idx}`}
+                    />
+                    <Label htmlFor={`q${question.questionId}-choice${idx}`}>
+                      {choice}
+                    </Label>
+                  </div>
                 ))}
-              </ul>
+              </RadioGroup>
             )}
             {/* Render more question details here if needed */}
           </CardContent>
