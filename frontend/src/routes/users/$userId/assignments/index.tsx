@@ -1,3 +1,5 @@
+import { createFileRoute } from '@tanstack/react-router';
+
 import {
   Card,
   CardContent,
@@ -5,8 +7,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { loadUserAssignments } from '@/lib/loaders';
-import { createFileRoute } from '@tanstack/react-router';
+import { UserAssignment, loadUserAssignments } from '@/lib/loaders';
+import { humanizeStatus } from '@/lib/utils';
 
 export const Route = createFileRoute('/users/$userId/assignments/')({
   loader: async ({ params }) =>
@@ -19,11 +21,13 @@ function UserAssignments() {
 
   return (
     <div className='flex flex-col gap-4 mt-20 px-8 justify-center'>
-      {userAssignments.map((assignment: any) => (
+      {userAssignments.map((assignment: UserAssignment) => (
         <Card key={assignment.assignmentId}>
           <CardHeader>
             <CardTitle>{assignment.title}</CardTitle>
-            <CardDescription>Status: {assignment.status}</CardDescription>
+            <CardDescription>
+              {humanizeStatus(assignment.status)}
+            </CardDescription>
           </CardHeader>
           <CardContent>
             {assignment.score !== undefined && assignment.score !== null && (
