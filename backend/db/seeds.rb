@@ -83,8 +83,8 @@ first_user = User.order(:id).first
 first_assignment = Assignment.order(:id).first
 if first_user && first_assignment
   user_assignment = UserAssignment.find_or_initialize_by(user: first_user, assignment: first_assignment)
-  session_start = 2.hours.ago
-  session_end = 1.hour.ago
+  session_start = 2.hours.ago.change(min: 13, sec: 27) # e.g., started at 2 hours ago, 13 minutes, 27 seconds
+  session_end = 1.hour.ago.change(min: 47, sec: 5)    # e.g., ended at 1 hour ago, 47 minutes, 5 seconds
   total_time = (session_end - session_start).to_i
 
   # Set assignment as complete and total_time_spent
