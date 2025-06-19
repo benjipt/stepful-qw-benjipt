@@ -19,7 +19,10 @@ function UsersIndex() {
         </h2>
         <div className='flex flex-col gap-4 mt-8 items-center'>
           {users.map((user: User) => (
-            <Card key={user.id} className='w-sm bg-neutral-50'>
+            <Card
+              key={user.id}
+              className='w-sm bg-neutral-50 hover:cursor-pointer hover:translate-y-0.5 active:translate-y-1'
+            >
               <CardHeader>
                 <CardTitle>{user.name}</CardTitle>
               </CardHeader>
