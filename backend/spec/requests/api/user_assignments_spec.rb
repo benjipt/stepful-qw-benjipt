@@ -3,7 +3,7 @@ require 'swagger_helper'
 RSpec.describe 'api/user_assignments', type: :request do
   path '/api/user_assignments' do
     get('list user_assignments') do
-      parameter name: :userEmail, in: :query, type: :string, description: 'User email', required: true
+      parameter name: :userId, in: :query, type: :integer, description: 'User ID', required: true
 
       produces 'application/json'
       response(200, 'successful') do
@@ -19,7 +19,7 @@ RSpec.describe 'api/user_assignments', type: :request do
           },
           required: %w[assignmentId title status]
         }
-        let(:userEmail) { users(:one).email }
+        let(:userId) { users(:one).id }
 
         after do |example|
           example.metadata[:response][:content] = {

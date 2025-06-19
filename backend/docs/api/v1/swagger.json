@@ -10,12 +10,12 @@
         "summary": "list user_assignments",
         "parameters": [
           {
-            "name": "userEmail",
+            "name": "userId",
             "in": "query",
-            "description": "User email",
+            "description": "User ID",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],

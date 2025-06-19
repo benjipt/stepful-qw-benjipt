@@ -1,3 +1,4 @@
+import { toStringParams } from '@/lib/utils';
 import type { paths } from '@/types/api';
 
 export type User =
@@ -27,7 +28,7 @@ export async function loadUsers(): Promise<User[]> {
 export async function loadUserAssignments(
   params: LoadUserAssignmentsParams,
 ): Promise<UserAssignment[]> {
-  const query = new URLSearchParams(params).toString();
+  const query = new URLSearchParams(toStringParams(params));
   const res = await fetch(`${API_BASE_URL}/api/user_assignments?${query}`);
   if (!res.ok) throw new Error('Failed to fetch user assignments');
   return res.json();

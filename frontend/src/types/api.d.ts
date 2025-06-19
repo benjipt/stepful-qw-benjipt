@@ -15,8 +15,8 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          /** @description User email */
-          userEmail: string;
+          /** @description User ID */
+          userId: number;
         };
         header?: never;
         path?: never;
