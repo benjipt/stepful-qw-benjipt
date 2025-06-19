@@ -1,10 +1,10 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/users/$userId/')({
-  loader: () => {
+  loader: ({ params }) => {
     throw redirect({
       to: '/users/$userId/assignments',
-      params: { userId: Route.useParams().userId },
+      params: { userId: params.userId },
     });
   },
 });

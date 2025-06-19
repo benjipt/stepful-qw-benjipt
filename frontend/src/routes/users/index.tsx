@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { Link, createFileRoute } from '@tanstack/react-router';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { User, loadUsers } from '@/lib/loaders';
@@ -19,17 +19,20 @@ function UsersIndex() {
         </h2>
         <div className='flex flex-col gap-4 mt-8 items-center'>
           {users.map((user: User) => (
-            <Card
+            <Link
+              to='/users/$userId'
+              params={{ userId: user.id.toString() }}
               key={user.id}
-              className='w-sm bg-neutral-50 hover:cursor-pointer hover:translate-y-0.5 active:translate-y-1'
             >
-              <CardHeader>
-                <CardTitle>{user.name}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className='text-sm text-neutral-500'>{user.email}</p>
-              </CardContent>
-            </Card>
+              <Card className='w-sm bg-neutral-50 hover:cursor-pointer hover:translate-y-0.5 active:translate-y-1'>
+                <CardHeader>
+                  <CardTitle>{user.name}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className='text-sm text-neutral-500'>{user.email}</p>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         </div>
       </div>
