@@ -13,7 +13,7 @@ function UsersIndex() {
 
   return (
     <div className='flex-1 flex flex-col p-2'>
-      <div className='mt-18 flex-col gap-16'>
+      <div className='flex-col gap-16'>
         <h2 className='text-center text-md font-extralight'>
           Select a User Profile to get started
         </h2>

@@ -22,7 +22,7 @@ function UserAssignments() {
   const { userId } = Route.useParams();
 
   return (
-    <div className='flex flex-col gap-4 mt-20 px-8 items-center'>
+    <div className='flex flex-col gap-4 px-8 items-center'>
       {userAssignments.map(
         ({ assignmentId, title, status, score, totalTimeSpent }) => (
           <Link

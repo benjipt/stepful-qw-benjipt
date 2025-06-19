@@ -14,7 +14,7 @@ export const Route = createFileRoute(
 function AssignmentQuestions() {
   const questions = Route.useLoaderData();
   return (
-    <div className='flex flex-col gap-4 mt-20 px-8 items-center'>
+    <div className='flex flex-col gap-4 px-8 items-center'>
       {questions?.map(question => (
         <Card key={question.questionId} className='w-md'>
           <CardHeader>
