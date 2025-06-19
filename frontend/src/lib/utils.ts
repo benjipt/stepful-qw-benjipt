@@ -28,6 +28,6 @@ export function humanizeStatus(status: string): string {
 // E.g. 5405 -> "1 hour, 30 minutes, 5 seconds". Zero-value units are omitted.
 export function humanizeDuration(timeInSeconds: number): string {
   return Duration.fromObject({ seconds: timeInSeconds })
-    .shiftTo('hours', 'minutes', 'seconds')
+    .shiftTo('hours', 'minutes')
     .toHuman({ maximumFractionDigits: 0 });
 }
