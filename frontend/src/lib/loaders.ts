@@ -1,7 +1,5 @@
 import type { paths } from '@/types/api';
 
-// Type for GET /api/users response
-
 export type User =
   paths['/api/users']['get']['responses'][200]['content']['application/json'][number];
 
