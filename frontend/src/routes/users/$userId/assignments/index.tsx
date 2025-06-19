@@ -21,20 +21,27 @@ function UserAssignments() {
   const userAssignments = Route.useLoaderData();
 
   return (
-    <div className='flex flex-col gap-4 mt-20 px-8 justify-center'>
+    <div className='flex flex-col gap-4 mt-20 px-8 items-center'>
       {userAssignments.map(
         ({ assignmentId, title, status, score, totalTimeSpent }) => (
           <Card key={assignmentId}>
             <CardHeader>
-              <CardTitle>{title}</CardTitle>
-              <CardDescription>{humanizeStatus(status)}</CardDescription>
+              <CardTitle className='tracking-tight'>{title}</CardTitle>
+              <CardDescription className='antialiased text-sm'>
+                {humanizeStatus(status)}
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <RenderIf condition={!!score}>
-                <p>Score: {score}</p>
+                <p className='text-sm'>
+                  Score:{' '}
+                  <span className='font-mono tracking-tight'>{score}</span>
+                </p>
               </RenderIf>
               <RenderIf condition={!!totalTimeSpent}>
-                <p>Total Time Spent: {humanizeDuration(totalTimeSpent ?? 0)}</p>
+                <p className='text-sm'>
+                  Total Time Spent: {humanizeDuration(totalTimeSpent ?? 0)}
+                </p>
               </RenderIf>
             </CardContent>
           </Card>

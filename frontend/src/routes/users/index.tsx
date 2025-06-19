@@ -24,7 +24,7 @@ function UsersIndex() {
               params={{ userId: user.id.toString() }}
               key={user.id}
             >
-              <Card className='w-sm bg-neutral-50 hover:cursor-pointer hover:translate-y-0.5 active:translate-y-1'>
+              <Card>
                 <CardHeader>
                   <CardTitle>{user.name}</CardTitle>
                 </CardHeader>
