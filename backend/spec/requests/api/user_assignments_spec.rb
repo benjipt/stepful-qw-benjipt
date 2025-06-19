@@ -3,9 +3,10 @@ require 'swagger_helper'
 RSpec.describe 'api/user_assignments', type: :request do
   path '/api/user_assignments' do
     get('list user_assignments') do
+      tags 'UserAssignments'
+      produces 'application/json'
       parameter name: :userId, in: :query, type: :integer, description: 'User ID', required: true
 
-      produces 'application/json'
       response(200, 'successful') do
         schema type: :array, items: {
           type: :object,
