@@ -51,7 +51,7 @@ function UserAssignments() {
                 </RenderIf>
                 <RenderIf condition={!!totalTimeSpent}>
                   <p className='text-sm'>
-                    Total Time Spent: {humanizeDuration(totalTimeSpent ?? 0)}
+                    Total Time: {humanizeDuration(totalTimeSpent ?? 0)}
                   </p>
                 </RenderIf>
               </CardContent>
