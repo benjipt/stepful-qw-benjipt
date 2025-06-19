@@ -11,10 +11,10 @@ export type LoadUserAssignmentsParams =
   paths['/api/user_assignments']['get']['parameters']['query'];
 
 export type AssignmentQuestion =
-  paths['/api/assignments/{assignmentId}/questions']['get']['responses'][200]['content']['application/json'][number];
+  paths['/api/user_assignments/{userAssignmentId}/questions']['get']['responses'][200]['content']['application/json'][number];
 
 export type LoadAssignmentQuestionsParams =
-  paths['/api/assignments/{assignmentId}/questions']['get']['parameters']['path'];
+  paths['/api/user_assignments/{userAssignmentId}/questions']['get']['parameters']['path'];
 
 const BE_PORT = import.meta.env.VITE_BE_PORT ?? '3000';
 const API_BASE_URL = `http://localhost:${BE_PORT}`;
@@ -41,14 +41,14 @@ export async function loadUserAssignments(
 }
 
 /**
- * Loader function to fetch assignment questions from /api/assignments/{assignmentId}/questions
+ * Loader function to fetch assignment questions from /api/user_assignments/{user_assignment_id}/questions
  */
 export async function loadAssignmentQuestions(
   params: LoadAssignmentQuestionsParams,
 ): Promise<AssignmentQuestion[]> {
-  const { assignmentId } = params;
+  const { userAssignmentId } = params;
   const res = await fetch(
-    `${API_BASE_URL}/api/assignments/${assignmentId}/questions`,
+    `${API_BASE_URL}/api/user_assignments/${userAssignmentId}/questions`,
   );
   if (!res.ok) throw new Error('Failed to fetch assignment questions');
   return res.json();

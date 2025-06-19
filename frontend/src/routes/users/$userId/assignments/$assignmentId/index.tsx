@@ -5,7 +5,7 @@ export const Route = createFileRoute(
   '/users/$userId/assignments/$assignmentId/',
 )({
   loader: async ({ params }) =>
-    loadAssignmentQuestions({ assignmentId: params.assignmentId }),
+    loadAssignmentQuestions({ userAssignmentId: params.assignmentId }),
   component: AssignmentQuestions,
 });
 
