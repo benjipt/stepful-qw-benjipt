@@ -11,5 +11,8 @@ pre-commit:
       stage_fixed: true
     - run: bun generate:openapi:be && bun generate:openapi:fe && bun check:types
       name: "Generate API types and type-check frontend"
-      glob: "backend/app/controllers/**/*,backend/app/serializers/**/*,backend/spec/**/*"
+      glob:
+        - "backend/app/controllers/**/*"
+        - "backend/app/serializers/**/*"
+        - "backend/spec/**/*"
       stage_fixed: true
