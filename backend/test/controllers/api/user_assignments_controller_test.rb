@@ -2,13 +2,13 @@ require 'test_helper'
 
 class Api::UserAssignmentsControllerTest < ActionDispatch::IntegrationTest
   test 'should get index' do
-    get api_user_assignments_url, params: { userEmail: users(:one).email }
+    get api_user_assignments_url, params: { userId: users(:one).id }
     assert_response :success
   end
 
   test 'should return only the most recent user_assignment per assignment_id' do
     # There are multiple user_assignments for user :one and assignment :one
-    get api_user_assignments_url, params: { userEmail: users(:one).email }
+    get api_user_assignments_url, params: { userId: users(:one).id }
     assert_response :success
     json = JSON.parse(@response.body)
     # Find the record with the latest created_at for assignment_id = assignments(:one).id
