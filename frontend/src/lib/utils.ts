@@ -1,4 +1,5 @@
 import { type ClassValue, clsx } from 'clsx';
+import { Duration } from 'luxon';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
@@ -21,4 +22,12 @@ export function humanizeStatus(status: string): string {
     .split('_')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
+}
+
+// Converts a number of seconds to a human-readable string using Luxon's toHuman().
+// E.g. 5405 -> "1 hour, 30 minutes, 5 seconds". Zero-value units are omitted.
+export function humanizeDuration(timeInSeconds: number): string {
+  return Duration.fromObject({ seconds: timeInSeconds })
+    .shiftTo('hours', 'minutes', 'seconds')
+    .toHuman({ maximumFractionDigits: 0 });
 }
