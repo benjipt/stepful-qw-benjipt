@@ -67,10 +67,60 @@ end
 # --- USER ASSIGNMENTS ---
 User.find_each do |user|
   Assignment.find_each do |assignment|
+    # Avoid creating a not_yet_started record if a completed record already exists for this user/assignment
+    existing = UserAssignment.find_by(user: user, assignment: assignment)
+    next if existing&.status == UserAssignment::STATUSES[:complete]
     UserAssignment.find_or_create_by!(
       user: user,
       assignment: assignment,
       status: UserAssignment::STATUSES[:not_yet_started]
     )
+  end
+end
+
+# --- USER ASSIGNMENT SESSION FOR FIRST USER ---
+first_user = User.order(:id).first
+first_assignment = Assignment.order(:id).first
+if first_user && first_assignment
+  user_assignment = UserAssignment.find_or_initialize_by(user: first_user, assignment: first_assignment)
+  session_start = 2.hours.ago
+  session_end = 1.hour.ago
+  total_time = (session_end - session_start).to_i
+
+  # Set assignment as complete and total_time_spent
+  user_assignment.status = UserAssignment::STATUSES[:complete]
+  user_assignment.score ||= 100
+  user_assignment.total_time_spent = total_time
+  user_assignment.save!
+
+  # Create session (idempotent)
+  UserAssignmentSession.where(user_assignment: user_assignment).destroy_all
+  UserAssignmentSession.create!(
+    user_assignment: user_assignment,
+    session_start: session_start,
+    session_end: session_end,
+    total_time: total_time
+  )
+
+  # Create user_assignment_questions for each assignment_question (idempotent)
+  assignment_questions = AssignmentQuestion.where(assignment: first_assignment)
+  assignment_questions.each do |aq|
+    response_value = if aq.correct_choice.present?
+      aq.correct_choice
+    else
+      case aq.question_content
+      when /difference between compact and spongy bone/i
+        'Compact bone is dense and strong, while spongy bone is lighter and porous.'
+      else
+        'Sample correct free form response.'
+      end
+    end
+    uaq = UserAssignmentQuestion.find_or_initialize_by(
+      user_assignment: user_assignment,
+      assignment_question: aq
+    )
+    uaq.response = response_value
+    uaq.correct = true
+    uaq.save!
   end
 end
