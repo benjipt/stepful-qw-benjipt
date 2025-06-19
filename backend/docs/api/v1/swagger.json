@@ -5,9 +5,69 @@
     "version": "v1"
   },
   "paths": {
+    "/api/assignments/{assignmentId}/questions": {
+      "get": {
+        "summary": "Returns all assignment questions for a given assignment",
+        "tags": [
+          "AssignmentQuestions"
+        ],
+        "parameters": [
+          {
+            "name": "assignmentId",
+            "in": "path",
+            "description": "Assignment ID (camelCase)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "questions found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "questionId": {
+                        "type": "integer"
+                      },
+                      "content": {
+                        "type": "string"
+                      },
+                      "choices": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "nullable": true
+                      }
+                    },
+                    "required": [
+                      "questionId",
+                      "content",
+                      "choices"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "assignment not found"
+          }
+        }
+      }
+    },
     "/api/user_assignments": {
       "get": {
         "summary": "list user_assignments",
+        "tags": [
+          "UserAssignments"
+        ],
         "parameters": [
           {
             "name": "userId",

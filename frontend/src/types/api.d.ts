@@ -4,6 +4,56 @@
  */
 
 export interface paths {
+  '/api/assignments/{assignmentId}/questions': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Returns all assignment questions for a given assignment */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description Assignment ID (camelCase) */
+          assignmentId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description questions found */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': {
+              questionId: number;
+              content: string;
+              choices: string[] | null;
+            }[];
+          };
+        };
+        /** @description assignment not found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content?: never;
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/user_assignments': {
     parameters: {
       query?: never;
