@@ -13,9 +13,8 @@ RSpec.describe 'api/user_assignments', type: :request do
             assignmentId: { type: :integer },
             title: { type: :string },
             status: { type: :string },
-            startedAt: { type: :string, format: :date_time, nullable: true },
-            completedAt: { type: :string, format: :date_time, nullable: true },
-            score: { type: :integer, nullable: true }
+            score: { type: :integer, nullable: true },
+            totalTimeSpent: { type: :integer, nullable: true, description: 'Total time spent in seconds' }
           },
           required: %w[assignmentId title status]
         }

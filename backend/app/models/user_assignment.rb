@@ -1,6 +1,7 @@
 class UserAssignment < ApplicationRecord
   belongs_to :user
   belongs_to :assignment
+  has_many :user_assignment_sessions, dependent: :destroy, inverse_of: :user_assignment
 
   STATUSES = {
     not_yet_started: 'not_yet_started',
@@ -12,6 +13,7 @@ class UserAssignment < ApplicationRecord
   validates :score, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, allow_nil: true }
   validate :score_presence_and_range_for_complete
   validate :score_nil_unless_complete
+  validate :total_time_spent_presence_for_complete
 
   # Class methods to access statuses
   def self.statuses
@@ -46,6 +48,12 @@ class UserAssignment < ApplicationRecord
   def score_nil_unless_complete
     unless complete?
       errors.add(:score, 'must be nil unless status is complete') unless score.nil?
+    end
+  end
+
+  def total_time_spent_presence_for_complete
+    if complete? && total_time_spent.nil?
+      errors.add(:total_time_spent, 'must be present if status is complete')
     end
   end
 end

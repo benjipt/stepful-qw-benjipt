@@ -1,5 +1,5 @@
 class UserAssignmentSummarySerializer < ActiveModel::Serializer
-  attributes :assignmentId, :title, :status, :startedAt, :completedAt, :score
+  attributes :assignmentId, :title, :status, :score, :totalTimeSpent
 
   def assignmentId
     object.assignment.id
@@ -9,11 +9,7 @@ class UserAssignmentSummarySerializer < ActiveModel::Serializer
     object.assignment.title
   end
 
-  def startedAt
-    object.started_at
-  end
-
-  def completedAt
-    object.completed_at
+  def totalTimeSpent
+    object.total_time_spent
   end
 end

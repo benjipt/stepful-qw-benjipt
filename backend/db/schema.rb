@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_18_002615) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_19_172654) do
   create_table "assignment_questions", force: :cascade do |t|
     t.integer "assignment_id", null: false
     t.string "question_content"
@@ -39,15 +39,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_18_002615) do
     t.index ["user_assignment_id"], name: "index_user_assignment_questions_on_user_assignment_id"
   end
 
+  create_table "user_assignment_sessions", force: :cascade do |t|
+    t.integer "user_assignment_id", null: false
+    t.datetime "session_start"
+    t.datetime "session_end"
+    t.integer "total_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_assignment_id"], name: "index_user_assignment_sessions_on_user_assignment_id"
+  end
+
   create_table "user_assignments", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "assignment_id", null: false
     t.string "status"
-    t.datetime "started_at"
-    t.datetime "completed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "score"
+    t.integer "total_time_spent"
     t.index ["assignment_id"], name: "index_user_assignments_on_assignment_id"
     t.index ["user_id"], name: "index_user_assignments_on_user_id"
   end
@@ -63,6 +72,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_18_002615) do
   add_foreign_key "assignment_questions", "assignments"
   add_foreign_key "user_assignment_questions", "assignment_questions"
   add_foreign_key "user_assignment_questions", "user_assignments"
+  add_foreign_key "user_assignment_sessions", "user_assignments"
   add_foreign_key "user_assignments", "assignments"
   add_foreign_key "user_assignments", "users"
 end

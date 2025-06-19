@@ -26,16 +26,6 @@ function UserAssignments() {
             <CardDescription>Status: {assignment.status}</CardDescription>
           </CardHeader>
           <CardContent>
-            {assignment.startedAt && (
-              <div>
-                Started: {new Date(assignment.startedAt).toLocaleString()}
-              </div>
-            )}
-            {assignment.completedAt && (
-              <div>
-                Completed: {new Date(assignment.completedAt).toLocaleString()}
-              </div>
-            )}
             {assignment.score !== undefined && assignment.score !== null && (
               <div>Score: {assignment.score}</div>
             )}

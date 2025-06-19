@@ -34,11 +34,9 @@ export interface paths {
               assignmentId: number;
               title: string;
               status: string;
-              /** Format: date_time */
-              startedAt?: string | null;
-              /** Format: date_time */
-              completedAt?: string | null;
               score?: number | null;
+              /** @description Total time spent in seconds */
+              totalTimeSpent?: number | null;
             }[];
           };
         };

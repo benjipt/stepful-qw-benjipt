@@ -7,13 +7,13 @@ class UserAssignmentTest < ActiveSupport::TestCase
   end
 
   test 'score must be present if status is complete' do
-    ua = UserAssignment.new(user: users(:one), assignment: assignments(:one), status: UserAssignment.statuses[:complete], score: nil)
+    ua = UserAssignment.new(user: users(:one), assignment: assignments(:one), status: UserAssignment.statuses[:complete], score: nil, total_time_spent: 100)
     assert_not ua.valid?
     assert_includes ua.errors[:score], 'must be present if status is complete'
   end
 
   test 'score must be between 0 and 100 if present and status is complete' do
-    ua = UserAssignment.new(user: users(:one), assignment: assignments(:one), status: UserAssignment.statuses[:complete], score: 101)
+    ua = UserAssignment.new(user: users(:one), assignment: assignments(:one), status: UserAssignment.statuses[:complete], score: 101, total_time_spent: 100)
     assert_not ua.valid?
     assert_includes ua.errors[:score], 'must be between 0 and 100'
 
@@ -26,12 +26,12 @@ class UserAssignmentTest < ActiveSupport::TestCase
   end
 
   test 'score of 0 is valid if status is complete' do
-    ua = UserAssignment.new(user: users(:one), assignment: assignments(:one), status: UserAssignment.statuses[:complete], score: 0)
+    ua = UserAssignment.new(user: users(:one), assignment: assignments(:one), status: UserAssignment.statuses[:complete], score: 0, total_time_spent: 100)
     assert ua.valid?
   end
 
   test 'score of 100 is valid if status is complete' do
-    ua = UserAssignment.new(user: users(:one), assignment: assignments(:one), status: UserAssignment.statuses[:complete], score: 100)
+    ua = UserAssignment.new(user: users(:one), assignment: assignments(:one), status: UserAssignment.statuses[:complete], score: 100, total_time_spent: 100)
     assert ua.valid?
   end
 
