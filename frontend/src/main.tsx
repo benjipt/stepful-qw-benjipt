@@ -2,6 +2,7 @@ import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 
+import Error from '@/components/common/error';
 import Loading from '@/components/common/loading';
 import NotFound from '@/components/common/not-found';
 // Import the generated route tree
@@ -11,6 +12,7 @@ import { routeTree } from './routeTree.gen';
 const router = createRouter({
   routeTree,
   defaultPendingComponent: Loading,
+  defaultErrorComponent: ({ error }) => <Error message={error.message} />,
   defaultNotFoundComponent: NotFound,
   defaultPendingMs: 0,
   defaultPreload: 'intent',
