@@ -83,7 +83,7 @@ export interface paths {
           };
           content: {
             'application/json': {
-              assignmentId: number;
+              userAssignmentId: number;
               title: string;
               status: string;
               score?: number | null;
@@ -140,7 +140,7 @@ export interface paths {
           };
           content: {
             'application/json': {
-              assignmentId: number;
+              userAssignmentId: number;
               title: string;
               status: string;
               score?: number | null;

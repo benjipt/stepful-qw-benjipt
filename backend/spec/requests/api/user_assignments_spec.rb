@@ -11,7 +11,7 @@ RSpec.describe 'api/user_assignments', type: :request do
         schema type: :array, items: {
           type: :object,
           properties: {
-            assignmentId: { type: :integer },
+            userAssignmentId: { type: :integer },
             title: { type: :string },
             status: { type: :string },
             score: { type: :integer, nullable: true },
@@ -40,7 +40,7 @@ RSpec.describe 'api/user_assignments', type: :request do
               required: %w[totalQuestions totalCorrect questions]
             }
           },
-          required: %w[assignmentId title status]
+          required: %w[userAssignmentId title status]
         }
         let(:userId) { users(:one).id }
 
@@ -65,7 +65,7 @@ RSpec.describe 'api/user_assignments', type: :request do
       response(200, 'successful') do
         schema type: :object,
           properties: {
-            assignmentId: { type: :integer },
+            userAssignmentId: { type: :integer },
             title: { type: :string },
             status: { type: :string },
             score: { type: :integer, nullable: true },
@@ -94,7 +94,7 @@ RSpec.describe 'api/user_assignments', type: :request do
               required: %w[totalQuestions totalCorrect questions]
             }
           },
-          required: %w[assignmentId title status]
+          required: %w[userAssignmentId title status]
 
         let(:id) { UserAssignment.first&.id || FactoryBot.create(:user_assignment).id }
 

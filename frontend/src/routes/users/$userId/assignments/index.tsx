@@ -34,13 +34,13 @@ function UserAssignments() {
     <div className='page'>
       <div className='flex flex-col gap-4 px-8 items-center'>
         {userAssignments.map(
-          ({ assignmentId, title, status, score, totalTimeSpent }) => (
+          ({ userAssignmentId, title, status, score, totalTimeSpent }) => (
             <Link
               to={getAssignmentRoute({ status })}
-              params={{ userId, assignmentId: assignmentId.toString() }}
-              key={assignmentId}
+              params={{ userId, assignmentId: userAssignmentId.toString() }}
+              key={userAssignmentId}
             >
-              <Card key={assignmentId} className='card-interactive'>
+              <Card key={userAssignmentId} className='card-interactive'>
                 <CardHeader>
                   <CardTitle>{title}</CardTitle>
                   <CardDescription

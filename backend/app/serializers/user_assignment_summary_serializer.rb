@@ -1,11 +1,11 @@
 class UserAssignmentSummarySerializer < ActiveModel::Serializer
-  attributes :assignmentId, :title, :status, :score, :totalTimeSpent
+  attributes :userAssignmentId, :title, :status, :score, :totalTimeSpent
   attribute :results, if: :complete?
 
   delegate :complete?, to: :object
 
-  def assignmentId
-    object.assignment.id
+  def userAssignmentId
+    object.id
   end
 
   def title
