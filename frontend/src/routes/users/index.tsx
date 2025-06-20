@@ -25,11 +25,11 @@ function UsersIndex() {
               key={user.id}
               className='w-full max-w-sm md:max-w-md lg:max-w-xl mx-auto'
             >
-              <Card className='card-interactive w-full'>
-                <CardHeader>
+              <Card className='card-interactive w-full rounded-sm border border-neutral-500 py-4 gap-3'>
+                <CardHeader className='px-4 pb-2'>
                   <CardTitle>{user.name}</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className='px-4 pt-0'>
                   <p className='text-sm text-neutral-500'>{user.email}</p>
                 </CardContent>
               </Card>
