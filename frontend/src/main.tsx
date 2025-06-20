@@ -3,6 +3,7 @@ import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 
 import Loading from '@/components/common/loading';
+import NotFound from '@/components/common/not-found';
 // Import the generated route tree
 import { routeTree } from './routeTree.gen';
 
@@ -10,6 +11,7 @@ import { routeTree } from './routeTree.gen';
 const router = createRouter({
   routeTree,
   defaultPendingComponent: Loading,
+  defaultNotFoundComponent: NotFound,
   defaultPendingMs: 0,
   defaultPreload: 'intent',
 });
