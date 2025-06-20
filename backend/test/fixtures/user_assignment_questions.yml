@@ -13,3 +13,10 @@ two:
   assignment: two
   response: MyText
   correct: false
+
+complete_1:
+  user_assignment: two
+  assignment_question: one
+  assignment: two
+  response: Answer 1
+  correct: true

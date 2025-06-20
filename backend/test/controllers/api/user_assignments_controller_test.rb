@@ -25,4 +25,30 @@ class Api::UserAssignmentsControllerTest < ActionDispatch::IntegrationTest
       assert_equal most_recent.score, record['score']
     end
   end
+
+  test 'should include results property only for complete user_assignments' do
+    get api_user_assignments_url, params: { userId: users(:two).id }
+    assert_response :success
+    json = JSON.parse(@response.body)
+    ua = json.find { |ua| ua['assignmentId'] == assignments(:two).id }
+    assert_equal 'complete', ua['status']
+    assert ua.key?('results'), 'results should be present for complete assignments'
+    results = ua['results']
+    assert_equal 2, results['totalQuestions']
+    assert_equal 1, results['totalCorrect']
+    assert_equal 2, results['questions'].size
+    question = results['questions'].find { |q| q['id'] == user_assignment_questions(:complete_1).id }
+    assert_equal assignment_questions(:one).question_content, question['content']
+    assert_equal 'Answer 1', question['response']
+    assert_equal true, question['correct']
+  end
+
+  test 'should not include results property for in_progress user_assignments' do
+    get api_user_assignments_url, params: { userId: users(:one).id }
+    assert_response :success
+    json = JSON.parse(@response.body)
+    ua = json.find { |ua| ua['assignmentId'] == assignments(:one).id }
+    assert_equal 'in_progress', ua['status']
+    refute ua.key?('results'), 'results should not be present for in_progress assignments'
+  end
 end

@@ -88,6 +88,16 @@ export interface paths {
               score?: number | null;
               /** @description Total time spent in seconds */
               totalTimeSpent?: number | null;
+              results?: {
+                totalQuestions: number;
+                totalCorrect: number;
+                questions: {
+                  id: number;
+                  content: string;
+                  response: string;
+                  correct: boolean;
+                }[];
+              } | null;
             }[];
           };
         };

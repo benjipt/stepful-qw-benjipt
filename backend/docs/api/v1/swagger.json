@@ -111,6 +111,49 @@
                         "type": "integer",
                         "nullable": true,
                         "description": "Total time spent in seconds"
+                      },
+                      "results": {
+                        "type": "object",
+                        "nullable": true,
+                        "properties": {
+                          "totalQuestions": {
+                            "type": "integer"
+                          },
+                          "totalCorrect": {
+                            "type": "integer"
+                          },
+                          "questions": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "integer"
+                                },
+                                "content": {
+                                  "type": "string"
+                                },
+                                "response": {
+                                  "type": "string"
+                                },
+                                "correct": {
+                                  "type": "boolean"
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "content",
+                                "response",
+                                "correct"
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "totalQuestions",
+                          "totalCorrect",
+                          "questions"
+                        ]
                       }
                     },
                     "required": [

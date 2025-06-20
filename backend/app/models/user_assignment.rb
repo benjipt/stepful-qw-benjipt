@@ -2,6 +2,7 @@ class UserAssignment < ApplicationRecord
   belongs_to :user
   belongs_to :assignment
   has_many :user_assignment_sessions, dependent: :destroy, inverse_of: :user_assignment
+  has_many :user_assignment_questions, dependent: :destroy, inverse_of: :user_assignment
 
   STATUSES = {
     not_yet_started: 'not_yet_started',

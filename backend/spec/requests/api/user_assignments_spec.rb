@@ -15,7 +15,29 @@ RSpec.describe 'api/user_assignments', type: :request do
             title: { type: :string },
             status: { type: :string },
             score: { type: :integer, nullable: true },
-            totalTimeSpent: { type: :integer, nullable: true, description: 'Total time spent in seconds' }
+            totalTimeSpent: { type: :integer, nullable: true, description: 'Total time spent in seconds' },
+            results: {
+              type: :object,
+              nullable: true,
+              properties: {
+                totalQuestions: { type: :integer },
+                totalCorrect: { type: :integer },
+                questions: {
+                  type: :array,
+                  items: {
+                    type: :object,
+                    properties: {
+                      id: { type: :integer },
+                      content: { type: :string },
+                      response: { type: :string },
+                      correct: { type: :boolean }
+                    },
+                    required: %w[id content response correct]
+                  }
+                }
+              },
+              required: %w[totalQuestions totalCorrect questions]
+            }
           },
           required: %w[assignmentId title status]
         }
