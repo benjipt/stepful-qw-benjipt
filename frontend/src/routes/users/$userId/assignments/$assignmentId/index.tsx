@@ -4,6 +4,7 @@ import RenderIf from '@/components/common/RenderIf';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Textarea } from '@/components/ui/textarea';
 import { loadAssignmentQuestions } from '@/lib/loaders';
 
 export const Route = createFileRoute(
@@ -46,7 +47,19 @@ function AssignmentQuestions() {
                   ))}
                 </RadioGroup>
               </RenderIf>
-              {/* Render more question details here if needed */}
+              <RenderIf condition={!isMultipleChoice}>
+                <div className='grid w-full gap-1'>
+                  <Textarea
+                    placeholder={
+                      question.response ?? 'Type your answer here...'
+                    }
+                    id={`q${question.questionId}-text-response`}
+                  />
+                  <p className='text-muted-foreground text-xs'>
+                    Your submission will be graded by AI
+                  </p>
+                </div>
+              </RenderIf>
             </CardContent>
           </Card>
         );
