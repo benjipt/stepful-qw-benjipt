@@ -81,6 +81,24 @@ function CardFooter({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
+function CardContentQPoints({
+  points,
+  className,
+  ...props
+}: { points: number; className?: string } & React.ComponentProps<'div'>) {
+  return (
+    <div
+      className={cn(
+        'absolute bottom-4 right-6 text-emerald-800 font-bold text-lg',
+        className,
+      )}
+      {...props}
+    >
+      + {points}
+    </div>
+  );
+}
+
 export {
   Card,
   CardHeader,
@@ -89,4 +107,5 @@ export {
   CardAction,
   CardDescription,
   CardContent,
+  CardContentQPoints,
 };
