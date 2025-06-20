@@ -74,7 +74,9 @@ function RouteComponent() {
                 </div>
                 <div className='text-xs text-neutral-500'>
                   Correct:{' '}
-                  <span className='font-semibold text-neutral-900'>
+                  <span
+                    className={`font-semibold ${q.correct ? 'text-emerald-800' : 'text-rose-800'}`}
+                  >
                     {q.correct ? 'Yes' : 'No'}
                   </span>
                 </div>
