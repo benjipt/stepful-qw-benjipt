@@ -4,8 +4,8 @@ import RenderIf from '@/components/common/RenderIf';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Textarea } from '@/components/ui/textarea';
 import { loadAssignmentQuestions } from '@/lib/loaders';
+import FreeTextResponse from './-components/free-text-response';
 
 export const Route = createFileRoute(
   '/users/$userId/assignments/$assignmentId/',
@@ -50,16 +50,10 @@ function AssignmentQuestions() {
                 </RadioGroup>
               </RenderIf>
               <RenderIf condition={!isMultipleChoice}>
-                <div className='grid w-full gap-1'>
-                  <Textarea
-                    id={`q${question.questionId}-text-response`}
-                    placeholder='Type your answer here...'
-                    value={question.response ?? undefined}
-                  />
-                  <p className='text-muted-foreground text-xs'>
-                    This response will be graded by AI
-                  </p>
-                </div>
+                <FreeTextResponse
+                  questionId={question.questionId}
+                  existingResponse={question.response ?? undefined}
+                />
               </RenderIf>
             </CardContent>
           </Card>
