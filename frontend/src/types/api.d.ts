@@ -35,6 +35,7 @@ export interface paths {
               content: string;
               choices: string[] | null;
               response: string | null;
+              points: number;
             }[];
           };
         };
@@ -96,6 +97,7 @@ export interface paths {
                   content: string;
                   response: string;
                   correct: boolean;
+                  points: number;
                 }[];
               } | null;
             }[];
@@ -152,6 +154,7 @@ export interface paths {
                   content: string;
                   response: string;
                   correct: boolean;
+                  points: number;
                 }[];
               } | null;
             };

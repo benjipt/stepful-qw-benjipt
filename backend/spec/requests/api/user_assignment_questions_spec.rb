@@ -14,9 +14,10 @@ RSpec.describe 'UserAssignmentQuestions API', type: :request do
             questionId: { type: :integer },
             content: { type: :string },
             choices: { type: :array, items: { type: :string }, nullable: true },
-            response: { type: :string, nullable: true }
+            response: { type: :string, nullable: true },
+            points: { type: :integer }
           },
-          required: [ 'questionId', 'content', 'choices', 'response' ]
+          required: [ 'questionId', 'content', 'choices', 'response', 'points' ]
         }
         run_test!
       end

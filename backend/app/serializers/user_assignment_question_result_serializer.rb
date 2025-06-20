@@ -1,5 +1,5 @@
 class UserAssignmentQuestionResultSerializer < ActiveModel::Serializer
-  attributes :id, :content, :response, :correct
+  attributes :id, :content, :response, :correct, :points
 
   def id
     object.id
@@ -15,5 +15,9 @@ class UserAssignmentQuestionResultSerializer < ActiveModel::Serializer
 
   def correct
     object.correct
+  end
+
+  def points
+    object.assignment_question.points
   end
 end

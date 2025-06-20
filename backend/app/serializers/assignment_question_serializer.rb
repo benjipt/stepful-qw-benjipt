@@ -1,5 +1,5 @@
 class AssignmentQuestionSerializer < ActiveModel::Serializer
-  attributes :questionId, :content, :choices
+  attributes :questionId, :content, :choices, :points
 
   def questionId
     object.id
@@ -12,5 +12,9 @@ class AssignmentQuestionSerializer < ActiveModel::Serializer
   def choices
     return nil if object.choices.nil?
     object.choices.split(';;')
+  end
+
+  def points
+    object.points
   end
 end

@@ -48,13 +48,17 @@
                       "response": {
                         "type": "string",
                         "nullable": true
+                      },
+                      "points": {
+                        "type": "integer"
                       }
                     },
                     "required": [
                       "questionId",
                       "content",
                       "choices",
-                      "response"
+                      "response",
+                      "points"
                     ]
                   }
                 }
@@ -138,13 +142,17 @@
                                 },
                                 "correct": {
                                   "type": "boolean"
+                                },
+                                "points": {
+                                  "type": "integer"
                                 }
                               },
                               "required": [
                                 "id",
                                 "content",
                                 "response",
-                                "correct"
+                                "correct",
+                                "points"
                               ]
                             }
                           }
@@ -238,13 +246,17 @@
                               },
                               "correct": {
                                 "type": "boolean"
+                              },
+                              "points": {
+                                "type": "integer"
                               }
                             },
                             "required": [
                               "id",
                               "content",
                               "response",
-                              "correct"
+                              "correct",
+                              "points"
                             ]
                           }
                         }

@@ -30,9 +30,10 @@ RSpec.describe 'api/user_assignments', type: :request do
                       id: { type: :integer },
                       content: { type: :string },
                       response: { type: :string },
-                      correct: { type: :boolean }
+                      correct: { type: :boolean },
+                      points: { type: :integer }
                     },
-                    required: %w[id content response correct]
+                    required: %w[id content response correct points]
                   }
                 }
               },
@@ -83,9 +84,10 @@ RSpec.describe 'api/user_assignments', type: :request do
                       id: { type: :integer },
                       content: { type: :string },
                       response: { type: :string },
-                      correct: { type: :boolean }
+                      correct: { type: :boolean },
+                      points: { type: :integer }
                     },
-                    required: %w[id content response correct]
+                    required: %w[id content response correct points]
                   }
                 }
               },
