@@ -30,7 +30,7 @@ function AssignmentQuestions() {
             <CardContent>
               <RenderIf condition={isMultipleChoice}>
                 <RadioGroup
-                  value={question.response ?? ''}
+                  defaultValue={question.response ?? ''}
                   className='gap-2'
                   aria-label='Choices'
                 >
@@ -39,6 +39,7 @@ function AssignmentQuestions() {
                       <RadioGroupItem
                         value={choice}
                         id={`q${question.questionId}-choice${idx}`}
+                        className='cursor-pointer'
                       />
                       <Label htmlFor={`q${question.questionId}-choice${idx}`}>
                         {choice}
