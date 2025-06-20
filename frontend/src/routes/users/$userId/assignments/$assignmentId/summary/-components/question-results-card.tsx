@@ -1,3 +1,4 @@
+import RenderIf from '@/components/common/render-if';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface Props {
@@ -40,11 +41,11 @@ const QuestionResultsCard: React.FC<Props> = ({
             {correct ? 'Yes' : 'No'}
           </dd>
         </div>
-        {correct && (
+        <RenderIf condition={correct}>
           <span className='absolute bottom-4 right-6 text-emerald-800 font-bold text-lg'>
             + {points}
           </span>
-        )}
+        </RenderIf>
       </CardContent>
     </Card>
   );
