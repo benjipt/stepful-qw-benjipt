@@ -111,6 +111,69 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/user_assignments/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** show user_assignment */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description UserAssignment ID */
+          id: number;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description successful */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': {
+              assignmentId: number;
+              title: string;
+              status: string;
+              score?: number | null;
+              /** @description Total time spent in seconds */
+              totalTimeSpent?: number | null;
+              results?: {
+                totalQuestions: number;
+                totalCorrect: number;
+                questions: {
+                  id: number;
+                  content: string;
+                  response: string;
+                  correct: boolean;
+                }[];
+              } | null;
+            };
+          };
+        };
+        /** @description not found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content?: never;
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/users': {
     parameters: {
       query?: never;
