@@ -17,14 +17,15 @@ function UsersIndex() {
         <h2 className='text-center text-md font-extralight'>
           Select a User Profile to get started
         </h2>
-        <div className='flex flex-col gap-4 mt-8 items-center'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 w-full max-w-4xl mx-auto'>
           {users.map((user: User) => (
             <Link
               to='/users/$userId'
               params={{ userId: user.id.toString() }}
               key={user.id}
+              className='w-full max-w-sm md:max-w-md lg:max-w-xl mx-auto'
             >
-              <Card className='card-interactive'>
+              <Card className='card-interactive w-full'>
                 <CardHeader>
                   <CardTitle>{user.name}</CardTitle>
                 </CardHeader>
