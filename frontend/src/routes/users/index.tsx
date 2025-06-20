@@ -24,7 +24,7 @@ function UsersIndex() {
               params={{ userId: user.id.toString() }}
               key={user.id}
             >
-              <Card>
+              <Card className='card-interactive'>
                 <CardHeader>
                   <CardTitle>{user.name}</CardTitle>
                 </CardHeader>

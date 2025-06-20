@@ -118,3 +118,9 @@
     @apply bg-background text-foreground antialiased;
   }
 }
+
+@layer utilities {
+  .card-interactive {
+    @apply hover:cursor-pointer hover:translate-y-0.5 active:translate-y-1;
+  }
+}
