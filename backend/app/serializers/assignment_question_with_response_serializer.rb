@@ -1,3 +1,4 @@
+# TODO: Refactor this with AssignmentQuestionSerializer
 class AssignmentQuestionWithResponseSerializer < ActiveModel::Serializer
   attributes :questionId, :content, :choices, :response
 
