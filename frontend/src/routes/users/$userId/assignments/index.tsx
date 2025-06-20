@@ -1,6 +1,6 @@
 import { Link, createFileRoute } from '@tanstack/react-router';
 
-import RenderIf from '@/components/common/RenderIf';
+import RenderIf from '@/components/common/render-if';
 import {
   Card,
   CardContent,

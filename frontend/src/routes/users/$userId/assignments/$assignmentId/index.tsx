@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import RenderIf from '@/components/common/RenderIf';
+import RenderIf from '@/components/common/render-if';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
