@@ -7,6 +7,12 @@ class Api::UserAssignmentQuestionsController < ApplicationController
     assignment = user_assignment.assignment
     assignment_questions = assignment.assignment_questions
 
-    render json: assignment_questions, each_serializer: AssignmentQuestionWithResponseSerializer, scope: user_assignment
+    # Preload only the response field for this user_assignment to avoid N+1 queries and save memory
+    responses = UserAssignmentQuestion.where(
+      user_assignment_id: user_assignment.id,
+      assignment_question_id: assignment_questions.pluck(:id)
+    ).pluck(:assignment_question_id, :response).to_h
+
+    render json: assignment_questions, each_serializer: AssignmentQuestionSerializer, scope: { user_assignment: user_assignment, responses: responses }
   end
 end

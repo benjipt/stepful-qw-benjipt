@@ -1,5 +1,6 @@
 class AssignmentQuestionSerializer < ActiveModel::Serializer
-  attributes :questionId, :content, :choices, :points
+  # Expects `scope` to be a hash with :user_assignment and :responses (assignment_question_id => response)
+  attributes :questionId, :content, :choices, :points, :response
 
   def questionId
     object.id
@@ -16,5 +17,11 @@ class AssignmentQuestionSerializer < ActiveModel::Serializer
 
   def points
     object.points
+  end
+
+  def response
+    responses = scope[:responses]
+    return nil unless responses
+    responses[object.id]
   end
 end
