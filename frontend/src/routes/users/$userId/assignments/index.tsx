@@ -17,6 +17,15 @@ export const Route = createFileRoute('/users/$userId/assignments/')({
   component: UserAssignments,
 });
 
+// Render helpers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
+const ASSIGNMENT_START_ROUTE = '/users/$userId/assignments/$assignmentId';
+const ASSIGNMENT_SUMMARY_ROUTE =
+  '/users/$userId/assignments/$assignmentId/summary';
+
+const getAssignmentRoute = ({ status }: { status: string }): string =>
+  status === 'complete' ? ASSIGNMENT_SUMMARY_ROUTE : ASSIGNMENT_START_ROUTE;
+// <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Render helpers
+
 function UserAssignments() {
   const userAssignments = Route.useLoaderData();
   const { userId } = Route.useParams();
@@ -27,7 +36,7 @@ function UserAssignments() {
         {userAssignments.map(
           ({ assignmentId, title, status, score, totalTimeSpent }) => (
             <Link
-              to='/users/$userId/assignments/$assignmentId'
+              to={getAssignmentRoute({ status })}
               params={{ userId, assignmentId: assignmentId.toString() }}
               key={assignmentId}
             >
