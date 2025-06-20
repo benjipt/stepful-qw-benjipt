@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { loadUserAssignmentById } from '@/lib/loaders';
+import { humanizeDuration } from '@/lib/utils';
 
 export const Route = createFileRoute(
   '/users/$userId/assignments/$assignmentId/summary/',
@@ -38,7 +39,7 @@ function RouteComponent() {
           <span className='text-sm text-neutral-500'>
             Total Time Spent:{' '}
             <span className='font-mono text-neutral-800'>
-              {totalTimeSpent} seconds
+              {humanizeDuration(totalTimeSpent ?? 0)}
             </span>
           </span>
         </div>
