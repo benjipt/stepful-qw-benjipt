@@ -11,6 +11,7 @@ const router = createRouter({
   routeTree,
   defaultPendingComponent: Loading,
   defaultPendingMs: 0,
+  defaultPreload: 'intent',
 });
 
 // Register the router instance for type safety
