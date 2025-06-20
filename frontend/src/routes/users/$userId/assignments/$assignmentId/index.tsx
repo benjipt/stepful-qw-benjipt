@@ -17,6 +17,7 @@ export const Route = createFileRoute(
 
 function AssignmentQuestions() {
   const questions = Route.useLoaderData();
+
   return (
     <div className='flex flex-col gap-4 px-8 items-center'>
       {questions?.map(question => {
@@ -51,13 +52,12 @@ function AssignmentQuestions() {
               <RenderIf condition={!isMultipleChoice}>
                 <div className='grid w-full gap-1'>
                   <Textarea
-                    placeholder={
-                      question.response ?? 'Type your answer here...'
-                    }
                     id={`q${question.questionId}-text-response`}
+                    placeholder='Type your answer here...'
+                    value={question.response ?? undefined}
                   />
                   <p className='text-muted-foreground text-xs'>
-                    Your submission will be graded by AI
+                    This response will be graded by AI
                   </p>
                 </div>
               </RenderIf>
