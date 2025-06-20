@@ -40,7 +40,7 @@ function UserAssignments() {
               params={{ userId, assignmentId: userAssignmentId.toString() }}
               key={userAssignmentId}
             >
-              <Card key={userAssignmentId} className='card-interactive'>
+              <Card key={userAssignmentId} className='hover-interactive'>
                 <CardHeader>
                   <CardTitle>{title}</CardTitle>
                   <CardDescription

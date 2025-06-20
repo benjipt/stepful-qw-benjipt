@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
 
+import { Button } from '@/components/ui/button';
 import { loadAssignmentQuestions } from '@/lib/loaders';
 import QuestionCard from './-components/question-card';
 
@@ -42,16 +43,14 @@ function AssignmentQuestions() {
         )}
         <div className='flex gap-2 mt-4'>
           {!isFirst && (
-            <button className='btn' onClick={() => setCurrentIndex(i => i - 1)}>
+            <Button onClick={() => setCurrentIndex(i => i - 1)}>
               Previous
-            </button>
+            </Button>
           )}
           {!isLast && (
-            <button className='btn' onClick={() => setCurrentIndex(i => i + 1)}>
-              Next
-            </button>
+            <Button onClick={() => setCurrentIndex(i => i + 1)}>Next</Button>
           )}
-          {isLast && <button className='btn btn-primary'>Submit</button>}
+          {isLast && <Button variant='default'>Submit</Button>}
         </div>
       </div>
     </div>
