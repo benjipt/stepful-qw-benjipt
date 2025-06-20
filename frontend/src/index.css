@@ -123,6 +123,10 @@
   .card-interactive {
     @apply hover:cursor-pointer hover:translate-y-0.5 active:translate-y-1;
   }
+
+  .page {
+    @apply flex flex-col items-center justify-center min-h-screen px-4 pb-24;
+  }
 }
 
 @keyframes bounce-dot {

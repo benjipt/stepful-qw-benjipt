@@ -12,7 +12,7 @@ function UsersIndex() {
   const users = Route.useLoaderData();
 
   return (
-    <div className='flex-1 flex flex-col p-2'>
+    <div className='page'>
       <div className='flex-col gap-16'>
         <h2 className='text-center text-md font-extralight'>
           Select a User Profile to get started

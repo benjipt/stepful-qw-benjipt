@@ -22,43 +22,45 @@ function UserAssignments() {
   const { userId } = Route.useParams();
 
   return (
-    <div className='flex flex-col gap-4 px-8 items-center'>
-      {userAssignments.map(
-        ({ assignmentId, title, status, score, totalTimeSpent }) => (
-          <Link
-            to='/users/$userId/assignments/$assignmentId'
-            params={{ userId, assignmentId: assignmentId.toString() }}
-            key={assignmentId}
-          >
-            <Card key={assignmentId} className='card-interactive'>
-              <CardHeader>
-                <CardTitle>{title}</CardTitle>
-                <CardDescription
-                  className={cn(
-                    'font-medium',
-                    status === 'complete' && 'text-emerald-800',
-                  )}
-                >
-                  {humanizeStatus(status)}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <RenderIf condition={!!score}>
-                  <p className='text-sm'>
-                    Score:{' '}
-                    <span className='font-mono tracking-tight'>{score}</span>
-                  </p>
-                </RenderIf>
-                <RenderIf condition={!!totalTimeSpent}>
-                  <p className='text-sm'>
-                    Total Time: {humanizeDuration(totalTimeSpent ?? 0)}
-                  </p>
-                </RenderIf>
-              </CardContent>
-            </Card>
-          </Link>
-        ),
-      )}
+    <div className='page'>
+      <div className='flex flex-col gap-4 px-8 items-center'>
+        {userAssignments.map(
+          ({ assignmentId, title, status, score, totalTimeSpent }) => (
+            <Link
+              to='/users/$userId/assignments/$assignmentId'
+              params={{ userId, assignmentId: assignmentId.toString() }}
+              key={assignmentId}
+            >
+              <Card key={assignmentId} className='card-interactive'>
+                <CardHeader>
+                  <CardTitle>{title}</CardTitle>
+                  <CardDescription
+                    className={cn(
+                      'font-medium',
+                      status === 'complete' && 'text-emerald-800',
+                    )}
+                  >
+                    {humanizeStatus(status)}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <RenderIf condition={!!score}>
+                    <p className='text-sm'>
+                      Score:{' '}
+                      <span className='font-mono tracking-tight'>{score}</span>
+                    </p>
+                  </RenderIf>
+                  <RenderIf condition={!!totalTimeSpent}>
+                    <p className='text-sm'>
+                      Total Time: {humanizeDuration(totalTimeSpent ?? 0)}
+                    </p>
+                  </RenderIf>
+                </CardContent>
+              </Card>
+            </Link>
+          ),
+        )}
+      </div>
     </div>
   );
 }

@@ -9,9 +9,7 @@ export const Route = createRootRoute({
           <h1 className='text-xl font-bold'>Stepful QuizWizard</h1>
         </Link>
       </div>
-      <div className='flex-1 flex flex-col mt-18 pb-24'>
-        <Outlet />
-      </div>
+      <Outlet />
       <TanStackRouterDevtools />
     </div>
   ),
