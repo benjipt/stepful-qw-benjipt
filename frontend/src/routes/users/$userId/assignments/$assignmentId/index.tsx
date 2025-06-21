@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,16 @@ export const Route = createFileRoute(
       userAssignmentId: params.assignmentId,
     });
     const nextQuestionIndex = assignmentQuestions.findIndex(q => !q.response);
+    // If all questions have a response, redirect to summary
+    if (nextQuestionIndex === -1) {
+      throw redirect({
+        to: '/users/$userId/assignments/$assignmentId/summary',
+        params: {
+          userId: params.userId,
+          assignmentId: params.assignmentId,
+        },
+      });
+    }
     return { assignmentQuestions, nextQuestionIndex };
   },
   component: AssignmentQuestions,
