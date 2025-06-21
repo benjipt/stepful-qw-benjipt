@@ -37,7 +37,7 @@ function UserAssignmentSummary() {
         <h1 className='text-2xl font-bold mb-2 text-neutral-900'>{title}</h1>
         <AssignmentMeta
           score={score ?? 0}
-          totalTimeSpent={totalTimeSpent ?? 0}
+          timeDuration={totalTimeSpent ?? 0}
           status={status}
           className='mb-6 items-start'
         />
