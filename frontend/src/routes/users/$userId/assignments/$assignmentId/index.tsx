@@ -28,7 +28,7 @@ export const Route = createFileRoute(
 
 function Assignment() {
   const assignment = Route.useLoaderData();
-  const { status, totalTimeSpent, title, score } = assignment;
+  const { status, totalTimeSpent, title } = assignment;
   const isInProgress = status === 'in_progress';
 
   return (
@@ -43,7 +43,6 @@ function Assignment() {
           <AssignmentMeta
             title={title}
             status={status}
-            score={isInProgress ? undefined : (score ?? undefined)}
             // The BE ensures totalTimeSpent is defined for in-progress assignments
             timeDuration={isInProgress ? totalTimeSpent! : undefined}
             className='mb-6 items-start'
