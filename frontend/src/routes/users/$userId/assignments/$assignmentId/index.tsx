@@ -1,11 +1,27 @@
+import { Link, createFileRoute, redirect } from '@tanstack/react-router';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { createFileRoute } from '@tanstack/react-router';
-import { Link } from '@tanstack/react-router';
+import { loadUserAssignmentById } from '@/lib/loaders';
 
 export const Route = createFileRoute(
   '/users/$userId/assignments/$assignmentId/',
 )({
+  loader: async ({ params }) => {
+    const assignment = await loadUserAssignmentById({
+      id: parseInt(params.assignmentId, 10),
+    });
+    if (assignment.status === 'complete') {
+      throw redirect({
+        to: '/users/$userId/assignments/$assignmentId/summary',
+        params: {
+          userId: params.userId,
+          assignmentId: params.assignmentId,
+        },
+      });
+    }
+    return assignment;
+  },
   component: Assignment,
 });
 
