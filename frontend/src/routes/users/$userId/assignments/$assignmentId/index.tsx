@@ -1,68 +1,53 @@
-import { createFileRoute, redirect } from '@tanstack/react-router';
-import { useState } from 'react';
-
 import { Button } from '@/components/ui/button';
-import { loadAssignmentQuestions } from '@/lib/loaders';
-import QuestionCard from './-components/question-card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { createFileRoute } from '@tanstack/react-router';
+import { Link } from '@tanstack/react-router';
 
 export const Route = createFileRoute(
   '/users/$userId/assignments/$assignmentId/',
 )({
-  loader: async ({ params }) => {
-    const assignmentQuestions = await loadAssignmentQuestions({
-      userAssignmentId: params.assignmentId,
-    });
-    const nextQuestionIndex = assignmentQuestions.findIndex(q => !q.response);
-    // If all questions have a response, redirect to summary
-    if (nextQuestionIndex === -1) {
-      throw redirect({
-        to: '/users/$userId/assignments/$assignmentId/summary',
-        params: {
-          userId: params.userId,
-          assignmentId: params.assignmentId,
-        },
-      });
-    }
-    return { assignmentQuestions, nextQuestionIndex };
-  },
-  component: AssignmentQuestions,
+  component: Assignment,
 });
 
-function AssignmentQuestions() {
-  const { assignmentQuestions: questions, nextQuestionIndex } =
-    Route.useLoaderData();
-
-  const [currentIndex, setCurrentIndex] = useState(
-    nextQuestionIndex >= 0 ? nextQuestionIndex : 0,
-  );
-  const currentQuestion = questions[currentIndex];
-  const isFirst = currentIndex === 0;
-  const isLast = currentIndex === questions.length - 1;
-
+function Assignment() {
   return (
-    <div className='page'>
-      <div className='flex flex-col gap-4 px-8 items-center'>
-        {currentQuestion && (
-          <QuestionCard
-            questionId={currentQuestion.questionId}
-            content={currentQuestion.content}
-            choices={currentQuestion.choices}
-            response={currentQuestion.response}
-            points={currentQuestion.points}
-          />
-        )}
-        <div className='flex gap-2 mt-4'>
-          {!isFirst && (
-            <Button onClick={() => setCurrentIndex(i => i - 1)}>
-              Previous
-            </Button>
-          )}
-          {!isLast && (
-            <Button onClick={() => setCurrentIndex(i => i + 1)}>Next</Button>
-          )}
-          {isLast && <Button variant='default'>Submit</Button>}
-        </div>
-      </div>
+    <div className='page flex flex-col items-center justify-center min-h-[60vh] px-4'>
+      <Card className='max-w-xl w-full mb-8'>
+        <CardHeader>
+          <CardTitle className='text-xl font-semibold text-center text-neutral-900'>
+            Assignment Instructions
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ul className='list-disc pl-6 space-y-2 text-neutral-800 text-base'>
+            <li>
+              There is <span className='font-semibold'>no time limit</span>, but
+              your time will be tracked while taking the assignment.
+            </li>
+            <li>
+              If you leave or close the page, your timer will pause and resume
+              when you return.
+            </li>
+            <li>
+              All answers are{' '}
+              <span className='font-semibold'>saved automatically</span> as you
+              progress. You can safely return later without losing your work.
+            </li>
+            <li>
+              You may <span className='font-semibold'>change your answers</span>{' '}
+              as many times as you like before submitting.
+            </li>
+          </ul>
+        </CardContent>
+      </Card>
+      <Button asChild size='lg' className='w-full max-w-xs'>
+        <Link
+          to='/users/$userId/assignments/$assignmentId/session'
+          params={Route.useParams()}
+        >
+          Continue
+        </Link>
+      </Button>
     </div>
   );
 }
