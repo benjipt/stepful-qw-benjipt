@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
+import AssignmentMeta from '@/components/common/assignment-meta';
 import { loadUserAssignmentById } from '@/lib/loaders';
-import AssignmentMeta from './-components/assignment-meta';
 import QuestionResultsCard from './-components/question-results-card';
 import ResultsSummary from './-components/results-summary';
 
@@ -28,7 +28,7 @@ export const Route = createFileRoute(
 
 function UserAssignmentSummary() {
   const assignment = Route.useLoaderData();
-  const { title, score, totalTimeSpent, results } = assignment;
+  const { title, score, totalTimeSpent, results, status } = assignment;
 
   // Results and score should always be truthy on this page.
   return (
@@ -38,6 +38,8 @@ function UserAssignmentSummary() {
         <AssignmentMeta
           score={score ?? 0}
           totalTimeSpent={totalTimeSpent ?? 0}
+          status={status}
+          className='mb-6 items-start'
         />
         <div className='mt-6'>
           <h2 className='text-lg font-semibold mb-2 text-neutral-800'>
