@@ -94,6 +94,7 @@ function Assignment() {
         <Link
           to='/users/$userId/assignments/$assignmentId/session'
           params={Route.useParams()}
+          search={{ q: undefined }} // Type-safe: no ?q in URL, satisfies router
         >
           Continue
         </Link>
