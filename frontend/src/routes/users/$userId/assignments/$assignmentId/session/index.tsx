@@ -1,8 +1,9 @@
+import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
+import { useEffect } from 'react';
+
+import RenderIf from '@/components/common/render-if';
 import { Button } from '@/components/ui/button';
 import { loadAssignmentQuestions } from '@/lib/loaders';
-import { createFileRoute, redirect } from '@tanstack/react-router';
-import { useNavigate } from '@tanstack/react-router';
-import { useEffect } from 'react';
 import QuestionCard from './-components/question-card';
 
 export const Route = createFileRoute(
@@ -25,6 +26,9 @@ export const Route = createFileRoute(
     }
     return { assignmentQuestions, nextQuestionIndex };
   },
+  // validateSearch parses and validates the 'q' search param from the URL.
+  // If 'q' is present, it is converted to a number; if not, it is set to undefined.
+  // This ensures the search param is always in a predictable, typed format for the route/component.
   validateSearch: search => ({
     q: search.q !== undefined ? Number(search.q) : undefined,
   }),
@@ -37,18 +41,19 @@ function AssignmentQuestions() {
   const { q } = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
 
-  // Set q to nextQuestionIndex + 1 if missing
+  // Query param navigation logic ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
+  const canSetQParam =
+    q === undefined &&
+    nextQuestionIndex !== undefined &&
+    nextQuestionIndex !== null;
+
   useEffect(() => {
-    if (
-      q === undefined &&
-      nextQuestionIndex !== undefined &&
-      nextQuestionIndex !== null
-    ) {
+    if (canSetQParam) {
       navigate({
         search: prev => ({ ...prev, q: nextQuestionIndex + 1 }),
       });
     }
-  }, [q, nextQuestionIndex, navigate]);
+  }, [canSetQParam, nextQuestionIndex, navigate]);
 
   // Use q (1-based) as currentIndex (0-based)
   const currentIndex =
@@ -63,6 +68,7 @@ function AssignmentQuestions() {
       search: prev => ({ ...prev, q: newIndex + 1 }),
     });
   };
+  // <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Query param navigation logic
 
   return (
     <div className='page'>
@@ -77,14 +83,14 @@ function AssignmentQuestions() {
           />
         )}
         <div className='flex gap-2 mt-4'>
-          {!isFirst && (
+          <RenderIf condition={!isFirst}>
             <Button onClick={() => goToIndex(currentIndex - 1)}>
               Previous
             </Button>
-          )}
-          {!isLast && (
+          </RenderIf>
+          <RenderIf condition={!isLast}>
             <Button onClick={() => goToIndex(currentIndex + 1)}>Next</Button>
-          )}
+          </RenderIf>
           {isLast && <Button variant='default'>Submit</Button>}
         </div>
       </div>
