@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import { loadUserAssignmentById } from '@/lib/loaders';
 import AssignmentMeta from './-components/assignment-meta';
@@ -8,8 +8,21 @@ import ResultsSummary from './-components/results-summary';
 export const Route = createFileRoute(
   '/users/$userId/assignments/$assignmentId/summary/',
 )({
-  loader: async ({ params }) =>
-    loadUserAssignmentById({ id: parseInt(params.assignmentId, 10) }),
+  loader: async ({ params }) => {
+    const assignment = await loadUserAssignmentById({
+      id: parseInt(params.assignmentId, 10),
+    });
+    if (assignment.status !== 'complete') {
+      throw redirect({
+        to: '/users/$userId/assignments/$assignmentId',
+        params: {
+          userId: params.userId,
+          assignmentId: params.assignmentId,
+        },
+      });
+    }
+    return assignment;
+  },
   component: UserAssignmentSummary,
 });
 
