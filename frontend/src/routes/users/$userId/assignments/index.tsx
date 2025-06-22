@@ -42,7 +42,7 @@ export const Route = createFileRoute('/users/$userId/assignments/')({
 const ASSIGNMENT_START_ROUTE = '/users/$userId/assignments/$assignmentId';
 const ASSIGNMENT_SUMMARY_ROUTE =
   '/users/$userId/assignments/$assignmentId/summary';
-const SECTION_HEADING_CLASS = 'text-lg font-regular mb-2';
+const SECTION_HEADING_CLASS = 'text-lg font-medium mb-2';
 
 const getAssignmentRoute = (status: string): string =>
   status === 'complete' ? ASSIGNMENT_SUMMARY_ROUTE : ASSIGNMENT_START_ROUTE;
@@ -73,7 +73,9 @@ function UserAssignments() {
           )}
         </RenderIf>
         <RenderIf condition={complete.length > 0}>
-          <h2 className={SECTION_HEADING_CLASS + ' mt-8'}>Completed</h2>
+          <h2 className={SECTION_HEADING_CLASS + ' text-emerald-800 mt-8'}>
+            Completed
+          </h2>
           {complete.map(
             ({ userAssignmentId, title, status, score, totalTimeSpent }) => (
               <AssignmentCard
