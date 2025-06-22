@@ -1,5 +1,5 @@
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import RenderIf from '@/components/common/render-if';
 import { Button } from '@/components/ui/button';
@@ -41,6 +41,20 @@ function AssignmentQuestions() {
   const { q } = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
 
+  // Centralized responses state
+  const [responses, setResponses] = useState(() =>
+    questions.map(q => q.response ?? ''),
+  );
+
+  // Handler to update a response
+  const handleResponseChange = (index: number, value: string) => {
+    setResponses(prev => {
+      const updated = [...prev];
+      updated[index] = value;
+      return updated;
+    });
+  };
+
   // Query param navigation logic ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
   const canSetQParam =
     q === undefined &&
@@ -70,6 +84,10 @@ function AssignmentQuestions() {
   };
   // <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Query param navigation logic
 
+  // Button enable/disable logic
+  const currentResponse = responses[currentIndex] ?? '';
+  const allAnswered = responses.every(r => r && r.trim() !== '');
+
   return (
     <div className='page'>
       <div className='flex flex-col gap-4 px-8 items-center'>
@@ -78,8 +96,11 @@ function AssignmentQuestions() {
             questionId={currentQuestion.questionId}
             content={currentQuestion.content}
             choices={currentQuestion.choices}
-            response={currentQuestion.response}
+            response={currentResponse}
             points={currentQuestion.points}
+            onResponseChange={value =>
+              handleResponseChange(currentIndex, value)
+            }
           />
         )}
         <div className='flex gap-2 mt-4'>
@@ -89,9 +110,18 @@ function AssignmentQuestions() {
             </Button>
           </RenderIf>
           <RenderIf condition={!isLast}>
-            <Button onClick={() => goToIndex(currentIndex + 1)}>Next</Button>
+            <Button
+              onClick={() => goToIndex(currentIndex + 1)}
+              disabled={!currentResponse || currentResponse.trim() === ''}
+            >
+              Next
+            </Button>
           </RenderIf>
-          {isLast && <Button variant='default'>Submit</Button>}
+          {isLast && (
+            <Button variant='default' disabled={!allAnswered}>
+              Submit
+            </Button>
+          )}
         </div>
       </div>
     </div>

@@ -11,6 +11,7 @@ export interface Props {
   choices?: string[] | null;
   response?: string | null;
   points: number;
+  onResponseChange?: (value: string) => void;
 }
 
 const QuestionCard: React.FC<Props> = ({
@@ -19,6 +20,7 @@ const QuestionCard: React.FC<Props> = ({
   choices,
   response,
   points,
+  onResponseChange,
 }) => {
   const isMultipleChoice = Array.isArray(choices) && choices.length > 0;
   return (
@@ -32,7 +34,8 @@ const QuestionCard: React.FC<Props> = ({
       <CardContent>
         <RenderIf condition={isMultipleChoice}>
           <RadioGroup
-            defaultValue={response ?? ''}
+            value={response ?? ''}
+            onValueChange={onResponseChange}
             className='gap-2'
             aria-label='Choices'
           >
@@ -52,6 +55,7 @@ const QuestionCard: React.FC<Props> = ({
           <FreeTextResponse
             questionId={questionId}
             existingResponse={response ?? undefined}
+            onChange={onResponseChange}
           />
         </RenderIf>
       </CardContent>

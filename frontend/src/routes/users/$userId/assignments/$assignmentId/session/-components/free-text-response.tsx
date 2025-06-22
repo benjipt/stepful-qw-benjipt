@@ -5,16 +5,19 @@ import { Textarea } from '@/components/ui/textarea';
 interface Props {
   questionId: number;
   existingResponse?: string;
+  onChange?: (value: string) => void;
 }
 
 const FreeTextResponse: React.FC<Props> = ({
   questionId,
   existingResponse,
+  onChange,
 }) => {
   const [response, setResponse] = useState(existingResponse);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setResponse(event.target.value);
+    if (onChange) onChange(event.target.value);
   };
 
   return (
