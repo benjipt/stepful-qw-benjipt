@@ -1,15 +1,7 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 
-import RenderIf from '@/components/common/render-if';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import { loadUserAssignments } from '@/lib/loaders';
-import { cn, humanizeDuration, humanizeStatus } from '@/lib/utils';
+import AssignmentCard from './-components/assignment-card';
 
 export const Route = createFileRoute('/users/$userId/assignments/')({
   loader: async ({ params }) =>
@@ -22,7 +14,7 @@ const ASSIGNMENT_START_ROUTE = '/users/$userId/assignments/$assignmentId';
 const ASSIGNMENT_SUMMARY_ROUTE =
   '/users/$userId/assignments/$assignmentId/summary';
 
-const getAssignmentRoute = ({ status }: { status: string }): string =>
+const getAssignmentRoute = (status: string): string =>
   status === 'complete' ? ASSIGNMENT_SUMMARY_ROUTE : ASSIGNMENT_START_ROUTE;
 // <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Render helpers
 
@@ -35,39 +27,16 @@ function UserAssignments() {
       <div className='flex flex-col gap-4 px-8 items-center w-full'>
         {userAssignments.map(
           ({ userAssignmentId, title, status, score, totalTimeSpent }) => (
-            <Link
-              to={getAssignmentRoute({ status })}
-              params={{ userId, assignmentId: userAssignmentId.toString() }}
+            <AssignmentCard
               key={userAssignmentId}
-              className='w-full max-w-sm lg:max-w-md mx-auto'
-            >
-              <Card key={userAssignmentId} className='hover-interactive w-full'>
-                <CardHeader>
-                  <CardTitle>{title}</CardTitle>
-                  <CardDescription
-                    className={cn(
-                      'font-medium',
-                      status === 'complete' && 'text-emerald-800',
-                    )}
-                  >
-                    {humanizeStatus(status)}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <RenderIf condition={!!score}>
-                    <p className='text-sm'>
-                      Score:{' '}
-                      <span className='font-mono tracking-tight'>{score}</span>
-                    </p>
-                  </RenderIf>
-                  <RenderIf condition={!!totalTimeSpent}>
-                    <p className='text-sm'>
-                      Total Time: {humanizeDuration(totalTimeSpent ?? 0)}
-                    </p>
-                  </RenderIf>
-                </CardContent>
-              </Card>
-            </Link>
+              userAssignmentId={userAssignmentId}
+              title={title}
+              status={status}
+              score={score ?? undefined}
+              totalTimeSpent={totalTimeSpent ?? undefined}
+              userId={userId}
+              route={getAssignmentRoute(status)}
+            />
           ),
         )}
       </div>
