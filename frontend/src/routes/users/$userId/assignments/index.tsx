@@ -4,18 +4,25 @@ import RenderIf from '@/components/common/render-if';
 import { UserAssignment, loadUserAssignments } from '@/lib/loaders';
 import AssignmentCard from './-components/assignment-card';
 
+interface SeperatedAssignments {
+  complete: UserAssignment[];
+  available: UserAssignment[];
+}
+
 // Utility to separate assignments by status
 // O(n) for both time and space complexity
 const separateAssignments = (
   assignments: UserAssignment[],
-): { complete: UserAssignment[]; available: UserAssignment[] } => {
-  const complete = [];
-  const available = [];
+): SeperatedAssignments => {
+  const complete: UserAssignment[] = [];
+  const available: UserAssignment[] = [];
   for (const assignment of assignments) {
     if (assignment.status === 'complete') {
       complete.push(assignment);
+    } else if (assignment.status === 'in_progress') {
+      available.unshift(assignment); // Prepend in_progress assignments
     } else {
-      available.push(assignment);
+      available.push(assignment); // Append all other available assignments
     }
   }
   return { complete, available };
