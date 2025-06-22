@@ -32,15 +32,16 @@ function UserAssignments() {
 
   return (
     <div className='page'>
-      <div className='flex flex-col gap-4 px-8 items-center'>
+      <div className='flex flex-col gap-4 px-8 items-center w-full'>
         {userAssignments.map(
           ({ userAssignmentId, title, status, score, totalTimeSpent }) => (
             <Link
               to={getAssignmentRoute({ status })}
               params={{ userId, assignmentId: userAssignmentId.toString() }}
               key={userAssignmentId}
+              className='w-full max-w-sm lg:max-w-md mx-auto'
             >
-              <Card key={userAssignmentId} className='hover-interactive'>
+              <Card key={userAssignmentId} className='hover-interactive w-full'>
                 <CardHeader>
                   <CardTitle>{title}</CardTitle>
                   <CardDescription

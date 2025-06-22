@@ -24,7 +24,7 @@ const QuestionCard: React.FC<Props> = ({
 }) => {
   const isMultipleChoice = Array.isArray(choices) && choices.length > 0;
   return (
-    <Card className='w-md'>
+    <Card className='w-full max-w-md'>
       <CardHeader>
         <CardTitle className='leading-7'>{content}</CardTitle>
         <div className='text-sm text-muted-foreground'>

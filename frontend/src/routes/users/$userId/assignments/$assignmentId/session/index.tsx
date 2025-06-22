@@ -90,39 +90,33 @@ function AssignmentQuestions() {
 
   return (
     <div className='page'>
-      <div className='flex flex-col gap-4 px-8 items-center'>
-        {currentQuestion && (
-          <QuestionCard
-            questionId={currentQuestion.questionId}
-            content={currentQuestion.content}
-            choices={currentQuestion.choices}
-            points={currentQuestion.points}
-            response={currentResponse}
-            onResponseChange={value =>
-              handleResponseChange(currentIndex, value)
-            }
-          />
+      {currentQuestion && (
+        <QuestionCard
+          questionId={currentQuestion.questionId}
+          content={currentQuestion.content}
+          choices={currentQuestion.choices}
+          points={currentQuestion.points}
+          response={currentResponse}
+          onResponseChange={value => handleResponseChange(currentIndex, value)}
+        />
+      )}
+      <div className='flex gap-2 mt-4'>
+        <RenderIf condition={!isFirst}>
+          <Button onClick={() => goToIndex(currentIndex - 1)}>Previous</Button>
+        </RenderIf>
+        <RenderIf condition={!isLast}>
+          <Button
+            onClick={() => goToIndex(currentIndex + 1)}
+            disabled={!currentResponse || currentResponse.trim() === ''}
+          >
+            Next
+          </Button>
+        </RenderIf>
+        {isLast && (
+          <Button variant='default' disabled={!allAnswered}>
+            Submit
+          </Button>
         )}
-        <div className='flex gap-2 mt-4'>
-          <RenderIf condition={!isFirst}>
-            <Button onClick={() => goToIndex(currentIndex - 1)}>
-              Previous
-            </Button>
-          </RenderIf>
-          <RenderIf condition={!isLast}>
-            <Button
-              onClick={() => goToIndex(currentIndex + 1)}
-              disabled={!currentResponse || currentResponse.trim() === ''}
-            >
-              Next
-            </Button>
-          </RenderIf>
-          {isLast && (
-            <Button variant='default' disabled={!allAnswered}>
-              Submit
-            </Button>
-          )}
-        </div>
       </div>
     </div>
   );
