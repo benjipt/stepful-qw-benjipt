@@ -1,11 +1,9 @@
-import { useState } from 'react';
-
 import { Textarea } from '@/components/ui/textarea';
 
 interface Props {
   questionId: number;
   existingResponse?: string;
-  onChange?: (value: string) => void;
+  onChange: (value: string) => void;
 }
 
 const FreeTextResponse: React.FC<Props> = ({
@@ -13,11 +11,8 @@ const FreeTextResponse: React.FC<Props> = ({
   existingResponse,
   onChange,
 }) => {
-  const [response, setResponse] = useState(existingResponse);
-
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setResponse(event.target.value);
-    if (onChange) onChange(event.target.value);
+    onChange(event.target.value);
   };
 
   return (
@@ -25,7 +20,7 @@ const FreeTextResponse: React.FC<Props> = ({
       <Textarea
         id={`q${questionId}-text-response`}
         placeholder='Type your answer here...'
-        value={response}
+        value={existingResponse ?? ''}
         onChange={handleChange}
       />
       <p className='text-muted-foreground text-xs'>

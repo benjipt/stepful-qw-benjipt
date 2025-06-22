@@ -11,7 +11,7 @@ export interface Props {
   choices?: string[] | null;
   response?: string | null;
   points: number;
-  onResponseChange?: (value: string) => void;
+  onResponseChange: (value: string) => void;
 }
 
 const QuestionCard: React.FC<Props> = ({

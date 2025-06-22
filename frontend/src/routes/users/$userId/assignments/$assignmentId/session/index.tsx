@@ -96,8 +96,8 @@ function AssignmentQuestions() {
             questionId={currentQuestion.questionId}
             content={currentQuestion.content}
             choices={currentQuestion.choices}
-            response={currentResponse}
             points={currentQuestion.points}
+            response={currentResponse}
             onResponseChange={value =>
               handleResponseChange(currentIndex, value)
             }
