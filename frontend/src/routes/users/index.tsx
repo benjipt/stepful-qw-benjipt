@@ -5,10 +5,10 @@ import { User, loadUsers } from '@/lib/loaders';
 
 export const Route = createFileRoute('/users/')({
   loader: () => loadUsers(),
-  component: UsersIndex,
+  component: Users,
 });
 
-function UsersIndex() {
+function Users() {
   const users = Route.useLoaderData();
 
   return (
