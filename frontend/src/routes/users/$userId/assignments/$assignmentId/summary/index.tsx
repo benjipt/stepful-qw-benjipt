@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import AssignmentMeta from '@/components/common/assignment-meta';
-import { loadUserAssignmentById } from '@/lib/loaders';
+import { loadUserAssignmentById } from '@/lib/api/loaders';
 import QuestionResultsCard from './-components/question-results-card';
 import ResultsSummary from './-components/results-summary';
 

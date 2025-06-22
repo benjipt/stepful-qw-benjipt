@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import RenderIf from '@/components/common/render-if';
 import { Button } from '@/components/ui/button';
-import { loadAssignmentQuestions } from '@/lib/loaders';
+import { loadAssignmentQuestions } from '@/lib/api/loaders';
 import QuestionCard from './-components/question-card';
 
 export const Route = createFileRoute(

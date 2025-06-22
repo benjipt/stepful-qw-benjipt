@@ -1,7 +1,7 @@
 import { Link, createFileRoute } from '@tanstack/react-router';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { User, loadUsers } from '@/lib/loaders';
+import { User, loadUsers } from '@/lib/api/loaders';
 
 export const Route = createFileRoute('/users/')({
   loader: () => loadUsers(),

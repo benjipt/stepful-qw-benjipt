@@ -3,7 +3,7 @@ import { Link, createFileRoute, redirect } from '@tanstack/react-router';
 import AssignmentMeta from '@/components/common/assignment-meta';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { loadUserAssignmentById } from '@/lib/loaders';
+import { loadUserAssignmentById } from '@/lib/api/loaders';
 
 export const Route = createFileRoute(
   '/users/$userId/assignments/$assignmentId/',

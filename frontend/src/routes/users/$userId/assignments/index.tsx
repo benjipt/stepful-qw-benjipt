@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import RenderIf from '@/components/common/render-if';
-import { UserAssignment, loadUserAssignments } from '@/lib/loaders';
+import { UserAssignment, loadUserAssignments } from '@/lib/api/loaders';
 import AssignmentCard from './-components/assignment-card';
 
 interface SeperatedAssignments {
