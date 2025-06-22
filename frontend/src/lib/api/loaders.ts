@@ -1,5 +1,6 @@
 import { toStringParams } from '@/lib/utils';
 import type { paths } from '@/types/api';
+import { API_BASE_URL } from '.';
 
 export type User =
   paths['/api/users']['get']['responses'][200]['content']['application/json'][number];
@@ -18,9 +19,6 @@ export type LoadAssignmentQuestionsParams =
 
 export type LoadUserAssignmentByIdParams =
   paths['/api/user_assignments/{id}']['get']['parameters']['path'];
-
-const BE_PORT = import.meta.env.VITE_BE_PORT ?? '3000';
-const API_BASE_URL = `http://localhost:${BE_PORT}`;
 
 /**
  * Loader function to fetch users from /api/users
