@@ -47,6 +47,7 @@ function Assignment() {
             timeDuration={isInProgress ? totalTimeSpent! : undefined}
             className='mb-6 items-start'
           />
+          {/* TODO: abstract these instructions to constants */}
           <ul className='list-disc pl-6 space-y-2 text-neutral-800 text-base'>
             {isInProgress ? (
               <>
