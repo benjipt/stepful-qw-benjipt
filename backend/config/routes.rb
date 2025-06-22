@@ -11,5 +11,6 @@ Rails.application.routes.draw do
     resources :user_assignments, only: [ :index, :show ] do
       resources :questions, only: [ :index ], controller: 'user_assignment_questions'
     end
+    resources :user_assignment_sessions, only: [ :create, :update ]
   end
 end
