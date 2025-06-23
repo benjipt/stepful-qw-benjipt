@@ -1,4 +1,9 @@
-import { Link, createFileRoute, redirect } from '@tanstack/react-router';
+import {
+  CreateUserAssignmentSessionRequest,
+  createUserAssignmentSession,
+} from '@/lib/api/mutations';
+import { useMutation } from '@tanstack/react-query';
+import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
 
 import AssignmentMeta from '@/components/common/assignment-meta';
 import { Button } from '@/components/ui/button';
@@ -32,11 +37,27 @@ export const Route = createFileRoute(
 
 function Assignment() {
   const assignment = Route.useLoaderData();
+  const params = Route.useParams();
+  const navigate = useNavigate();
   const { status, totalTimeSpent, title } = assignment;
   const isInProgress = status === 'in_progress';
   const instructions = isInProgress
     ? IN_PROGRESS_INSTRUCTIONS
     : NOT_YET_STARTED_INSTRUCTIONS;
+
+  // Mutation for creating a user assignment session
+  const createSession = useMutation({
+    mutationFn: (body: CreateUserAssignmentSessionRequest) =>
+      createUserAssignmentSession(body),
+    onSuccess: () => {
+      // Navigate to the session route on success
+      navigate({
+        to: '/users/$userId/assignments/$assignmentId/session',
+        params,
+        search: { q: undefined },
+      });
+    },
+  });
 
   return (
     <div className='page flex flex-col items-center justify-center min-h-[60vh] px-4'>
@@ -61,14 +82,17 @@ function Assignment() {
           </ul>
         </CardContent>
       </Card>
-      <Button asChild size='lg' className='w-full max-w-xs'>
-        <Link
-          to='/users/$userId/assignments/$assignmentId/session'
-          params={Route.useParams()}
-          search={{ q: undefined }} // Type-safe: no ?q in URL, satisfies router
-        >
-          Continue
-        </Link>
+      <Button
+        size='lg'
+        className='w-full max-w-xs'
+        onClick={() =>
+          createSession.mutate({
+            userAssignmentId: Number(params.assignmentId),
+          })
+        }
+        disabled={createSession.isPending}
+      >
+        {createSession.isPending ? 'Loading...' : 'Continue'}
       </Button>
     </div>
   );
