@@ -15,7 +15,8 @@ export type AssignmentQuestion =
   paths['/api/user_assignments/{userAssignmentId}/questions']['get']['responses'][200]['content']['application/json'][number];
 
 export type LoadAssignmentQuestionsParams =
-  paths['/api/user_assignments/{userAssignmentId}/questions']['get']['parameters']['path'];
+  paths['/api/user_assignments/{userAssignmentId}/questions']['get']['parameters']['path'] &
+    paths['/api/user_assignments/{userAssignmentId}/questions']['get']['parameters']['query'];
 
 export type LoadUserAssignmentByIdParams =
   paths['/api/user_assignments/{id}']['get']['parameters']['path'];
@@ -47,9 +48,10 @@ export async function loadUserAssignments(
 export async function loadAssignmentQuestions(
   params: LoadAssignmentQuestionsParams,
 ): Promise<AssignmentQuestion[]> {
-  const { userAssignmentId } = params;
+  const { userAssignmentId, userAssignmentSessionId } = params;
+  const query = new URLSearchParams({ userAssignmentSessionId });
   const res = await fetch(
-    `${API_BASE_URL}/api/user_assignments/${userAssignmentId}/questions`,
+    `${API_BASE_URL}/api/user_assignments/${userAssignmentId}/questions?${query}`,
   );
   if (!res.ok) throw new Error('Failed to fetch assignment questions');
   return res.json();

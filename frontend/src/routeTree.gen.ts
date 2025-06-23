@@ -11,7 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root';
 import { Route as IndexRouteImport } from './routes/index';
 import { Route as UsersUserIdAssignmentsAssignmentIdIndexRouteImport } from './routes/users/$userId/assignments/$assignmentId/index';
-import { Route as UsersUserIdAssignmentsAssignmentIdSessionIndexRouteImport } from './routes/users/$userId/assignments/$assignmentId/session/index';
+import { Route as UsersUserIdAssignmentsAssignmentIdSessionSessionIdIndexRouteImport } from './routes/users/$userId/assignments/$assignmentId/session/$sessionId/index';
 import { Route as UsersUserIdAssignmentsAssignmentIdSummaryIndexRouteImport } from './routes/users/$userId/assignments/$assignmentId/summary/index';
 import { Route as UsersUserIdAssignmentsIndexRouteImport } from './routes/users/$userId/assignments/index';
 import { Route as UsersUserIdIndexRouteImport } from './routes/users/$userId/index';
@@ -50,10 +50,10 @@ const UsersUserIdAssignmentsAssignmentIdSummaryIndexRoute =
     path: '/users/$userId/assignments/$assignmentId/summary/',
     getParentRoute: () => rootRouteImport,
   } as any);
-const UsersUserIdAssignmentsAssignmentIdSessionIndexRoute =
-  UsersUserIdAssignmentsAssignmentIdSessionIndexRouteImport.update({
-    id: '/users/$userId/assignments/$assignmentId/session/',
-    path: '/users/$userId/assignments/$assignmentId/session/',
+const UsersUserIdAssignmentsAssignmentIdSessionSessionIdIndexRoute =
+  UsersUserIdAssignmentsAssignmentIdSessionSessionIdIndexRouteImport.update({
+    id: '/users/$userId/assignments/$assignmentId/session/$sessionId/',
+    path: '/users/$userId/assignments/$assignmentId/session/$sessionId/',
     getParentRoute: () => rootRouteImport,
   } as any);
 
@@ -63,8 +63,8 @@ export interface FileRoutesByFullPath {
   '/users/$userId': typeof UsersUserIdIndexRoute;
   '/users/$userId/assignments': typeof UsersUserIdAssignmentsIndexRoute;
   '/users/$userId/assignments/$assignmentId': typeof UsersUserIdAssignmentsAssignmentIdIndexRoute;
-  '/users/$userId/assignments/$assignmentId/session': typeof UsersUserIdAssignmentsAssignmentIdSessionIndexRoute;
   '/users/$userId/assignments/$assignmentId/summary': typeof UsersUserIdAssignmentsAssignmentIdSummaryIndexRoute;
+  '/users/$userId/assignments/$assignmentId/session/$sessionId': typeof UsersUserIdAssignmentsAssignmentIdSessionSessionIdIndexRoute;
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute;
@@ -72,8 +72,8 @@ export interface FileRoutesByTo {
   '/users/$userId': typeof UsersUserIdIndexRoute;
   '/users/$userId/assignments': typeof UsersUserIdAssignmentsIndexRoute;
   '/users/$userId/assignments/$assignmentId': typeof UsersUserIdAssignmentsAssignmentIdIndexRoute;
-  '/users/$userId/assignments/$assignmentId/session': typeof UsersUserIdAssignmentsAssignmentIdSessionIndexRoute;
   '/users/$userId/assignments/$assignmentId/summary': typeof UsersUserIdAssignmentsAssignmentIdSummaryIndexRoute;
+  '/users/$userId/assignments/$assignmentId/session/$sessionId': typeof UsersUserIdAssignmentsAssignmentIdSessionSessionIdIndexRoute;
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport;
@@ -82,8 +82,8 @@ export interface FileRoutesById {
   '/users/$userId/': typeof UsersUserIdIndexRoute;
   '/users/$userId/assignments/': typeof UsersUserIdAssignmentsIndexRoute;
   '/users/$userId/assignments/$assignmentId/': typeof UsersUserIdAssignmentsAssignmentIdIndexRoute;
-  '/users/$userId/assignments/$assignmentId/session/': typeof UsersUserIdAssignmentsAssignmentIdSessionIndexRoute;
   '/users/$userId/assignments/$assignmentId/summary/': typeof UsersUserIdAssignmentsAssignmentIdSummaryIndexRoute;
+  '/users/$userId/assignments/$assignmentId/session/$sessionId/': typeof UsersUserIdAssignmentsAssignmentIdSessionSessionIdIndexRoute;
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
@@ -93,8 +93,8 @@ export interface FileRouteTypes {
     | '/users/$userId'
     | '/users/$userId/assignments'
     | '/users/$userId/assignments/$assignmentId'
-    | '/users/$userId/assignments/$assignmentId/session'
-    | '/users/$userId/assignments/$assignmentId/summary';
+    | '/users/$userId/assignments/$assignmentId/summary'
+    | '/users/$userId/assignments/$assignmentId/session/$sessionId';
   fileRoutesByTo: FileRoutesByTo;
   to:
     | '/'
@@ -102,8 +102,8 @@ export interface FileRouteTypes {
     | '/users/$userId'
     | '/users/$userId/assignments'
     | '/users/$userId/assignments/$assignmentId'
-    | '/users/$userId/assignments/$assignmentId/session'
-    | '/users/$userId/assignments/$assignmentId/summary';
+    | '/users/$userId/assignments/$assignmentId/summary'
+    | '/users/$userId/assignments/$assignmentId/session/$sessionId';
   id:
     | '__root__'
     | '/'
@@ -111,8 +111,8 @@ export interface FileRouteTypes {
     | '/users/$userId/'
     | '/users/$userId/assignments/'
     | '/users/$userId/assignments/$assignmentId/'
-    | '/users/$userId/assignments/$assignmentId/session/'
-    | '/users/$userId/assignments/$assignmentId/summary/';
+    | '/users/$userId/assignments/$assignmentId/summary/'
+    | '/users/$userId/assignments/$assignmentId/session/$sessionId/';
   fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
@@ -121,8 +121,8 @@ export interface RootRouteChildren {
   UsersUserIdIndexRoute: typeof UsersUserIdIndexRoute;
   UsersUserIdAssignmentsIndexRoute: typeof UsersUserIdAssignmentsIndexRoute;
   UsersUserIdAssignmentsAssignmentIdIndexRoute: typeof UsersUserIdAssignmentsAssignmentIdIndexRoute;
-  UsersUserIdAssignmentsAssignmentIdSessionIndexRoute: typeof UsersUserIdAssignmentsAssignmentIdSessionIndexRoute;
   UsersUserIdAssignmentsAssignmentIdSummaryIndexRoute: typeof UsersUserIdAssignmentsAssignmentIdSummaryIndexRoute;
+  UsersUserIdAssignmentsAssignmentIdSessionSessionIdIndexRoute: typeof UsersUserIdAssignmentsAssignmentIdSessionSessionIdIndexRoute;
 }
 
 declare module '@tanstack/react-router' {
@@ -169,11 +169,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersUserIdAssignmentsAssignmentIdSummaryIndexRouteImport;
       parentRoute: typeof rootRouteImport;
     };
-    '/users/$userId/assignments/$assignmentId/session/': {
-      id: '/users/$userId/assignments/$assignmentId/session/';
-      path: '/users/$userId/assignments/$assignmentId/session';
-      fullPath: '/users/$userId/assignments/$assignmentId/session';
-      preLoaderRoute: typeof UsersUserIdAssignmentsAssignmentIdSessionIndexRouteImport;
+    '/users/$userId/assignments/$assignmentId/session/$sessionId/': {
+      id: '/users/$userId/assignments/$assignmentId/session/$sessionId/';
+      path: '/users/$userId/assignments/$assignmentId/session/$sessionId';
+      fullPath: '/users/$userId/assignments/$assignmentId/session/$sessionId';
+      preLoaderRoute: typeof UsersUserIdAssignmentsAssignmentIdSessionSessionIdIndexRouteImport;
       parentRoute: typeof rootRouteImport;
     };
   }
@@ -186,10 +186,10 @@ const rootRouteChildren: RootRouteChildren = {
   UsersUserIdAssignmentsIndexRoute: UsersUserIdAssignmentsIndexRoute,
   UsersUserIdAssignmentsAssignmentIdIndexRoute:
     UsersUserIdAssignmentsAssignmentIdIndexRoute,
-  UsersUserIdAssignmentsAssignmentIdSessionIndexRoute:
-    UsersUserIdAssignmentsAssignmentIdSessionIndexRoute,
   UsersUserIdAssignmentsAssignmentIdSummaryIndexRoute:
     UsersUserIdAssignmentsAssignmentIdSummaryIndexRoute,
+  UsersUserIdAssignmentsAssignmentIdSessionSessionIdIndexRoute:
+    UsersUserIdAssignmentsAssignmentIdSessionSessionIdIndexRoute,
 };
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

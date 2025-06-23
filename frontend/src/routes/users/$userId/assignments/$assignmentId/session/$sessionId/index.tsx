@@ -7,10 +7,11 @@ import { loadAssignmentQuestions } from '@/lib/api/loaders';
 import QuestionCard from './-components/question-card';
 
 export const Route = createFileRoute(
-  '/users/$userId/assignments/$assignmentId/session/',
+  '/users/$userId/assignments/$assignmentId/session/$sessionId/',
 )({
   loader: async ({ params }) => {
     const assignmentQuestions = await loadAssignmentQuestions({
+      userAssignmentSessionId: params.sessionId,
       userAssignmentId: params.assignmentId,
     });
     const nextQuestionIndex = assignmentQuestions.findIndex(q => !q.response);

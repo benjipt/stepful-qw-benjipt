@@ -49,11 +49,11 @@ function Assignment() {
   const createSession = useMutation({
     mutationFn: (body: CreateUserAssignmentSessionRequest) =>
       createUserAssignmentSession(body),
-    onSuccess: () => {
+    onSuccess: ({ userAssignmentSessionId }) => {
       // Navigate to the session route on success
       navigate({
-        to: '/users/$userId/assignments/$assignmentId/session',
-        params,
+        to: '/users/$userId/assignments/$assignmentId/session/$sessionId',
+        params: { ...params, sessionId: userAssignmentSessionId.toString() },
         search: { q: undefined },
       });
     },
