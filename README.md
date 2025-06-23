@@ -49,6 +49,14 @@ bundle install
 cd ..
 ```
 
+After installing dependencies, set up the database by creating, migrating, and seeding it:
+
+```sh
+cd backend
+bundle exec rails db:create db:migrate db:seed
+cd ..
+```
+
 If you encounter errors about missing dependencies in `frontend/node_modules`, create a symlink after installing dependencies:
 
 ```sh
