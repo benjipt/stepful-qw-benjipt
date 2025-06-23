@@ -60,6 +60,7 @@ function UserAssignmentSummary() {
                 response={q.response}
                 correct={q.correct}
                 points={q.points}
+                gradeExplanation={q.gradeExplanation ?? undefined}
               />
             ))}
           </div>

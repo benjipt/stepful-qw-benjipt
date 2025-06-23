@@ -13,6 +13,7 @@ interface Props {
   response: string;
   correct: boolean;
   points: number;
+  gradeExplanation?: string;
 }
 
 const QuestionResultsCard: React.FC<Props> = ({
@@ -21,6 +22,7 @@ const QuestionResultsCard: React.FC<Props> = ({
   response,
   correct,
   points,
+  gradeExplanation,
 }) => {
   return (
     <Card className='relative w-full'>
@@ -47,6 +49,14 @@ const QuestionResultsCard: React.FC<Props> = ({
             {correct ? 'Yes' : 'No'}
           </dd>
         </div>
+        <RenderIf condition={!!gradeExplanation}>
+          <div className='grid grid-cols-[auto,1fr] items-start gap-y-1 w-full'>
+            <dt className='text-sm text-neutral-500'>Explanation:</dt>
+            <dd className='text-neutral-900 text-sm break-words min-w-0'>
+              {gradeExplanation}
+            </dd>
+          </div>
+        </RenderIf>
         <RenderIf condition={correct}>
           <CardContentQPoints points={points} />
         </RenderIf>
