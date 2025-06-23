@@ -37,13 +37,14 @@ class UserAssignment < ApplicationRecord
   # Checks if all questions have a response, and if so, closes sessions, grades, and completes the assignment
   def complete_if_finished!
     total_questions = assignment.assignment_questions.count
-    answered_questions = user_assignment_questions.where.not(response: [ nil, '' ]).count
-    return unless total_questions > 0 && answered_questions == total_questions
+    # For each assignment_question_id, check if there is at least one user_assignment_question with a response
+    answered_question_ids = user_assignment_questions.where.not(response: [ nil, '' ]).distinct.pluck(:assignment_question_id)
+    return unless total_questions > 0 && answered_question_ids.uniq.size == total_questions
 
     # Close any active sessions
     UserAssignmentSession.close_stale_sessions_for(self)
 
-    # Grade: sum points for correct responses
+    # Grade: sum points for correct responses (latest response per question)
     correct_question_ids = user_assignment_questions.where(correct: true).pluck(:assignment_question_id)
     total_points = AssignmentQuestion.where(id: correct_question_ids).sum(:points)
     self.score = total_points
