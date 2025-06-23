@@ -89,7 +89,7 @@ export interface paths {
           content: {
             'application/json': {
               success: boolean;
-              user_assignment_session_id: number;
+              userAssignmentSessionId: number;
             };
           };
         };

@@ -17,8 +17,8 @@ RSpec.describe 'api/user_assignment_sessions', type: :request do
       response(201, 'created') do
         schema type: :object, properties: {
           success: { type: :boolean },
-          user_assignment_session_id: { type: :integer }
-        }, required: %w[success user_assignment_session_id]
+          userAssignmentSessionId: { type: :integer }
+        }, required: %w[success userAssignmentSessionId]
 
         let(:user_assignment) { FactoryBot.create(:user_assignment) }
         let(:userAssignmentId) { user_assignment.id }

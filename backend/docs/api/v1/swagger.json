@@ -89,13 +89,13 @@
                     "success": {
                       "type": "boolean"
                     },
-                    "user_assignment_session_id": {
+                    "userAssignmentSessionId": {
                       "type": "integer"
                     }
                   },
                   "required": [
                     "success",
-                    "user_assignment_session_id"
+                    "userAssignmentSessionId"
                   ]
                 }
               }

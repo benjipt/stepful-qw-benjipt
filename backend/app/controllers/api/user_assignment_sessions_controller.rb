@@ -20,7 +20,7 @@ class Api::UserAssignmentSessionsController < ApplicationController
       raise ActiveRecord::Rollback unless session.persisted?
     end
     if session&.persisted?
-      render json: { success: true, user_assignment_session_id: session.id }, status: :created
+      render json: { success: true, userAssignmentSessionId: session.id }, status: :created
     else
       render json: { errors: session ? session.errors.full_messages : [ 'Session creation failed' ] }, status: :unprocessable_entity
     end
