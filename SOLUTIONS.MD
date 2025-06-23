@@ -8,7 +8,7 @@
   - Stepful uses Rails, so this approach better demonstrates my fit and skills for your stack.
   - Rails is alot of fun to build in.
 
-- **Frontend Routing**: I chose Tanstack Router for its powerful handling of URL paths and search params, and its seamless integration with browser navigation (back/forward, etc). My familiarity with Tanstack Query also made this a natural fit.
+- **Frontend Routing**: I chose Tanstack Router for several reasons: one of the major draws was its ability to "hoist" queries to routes, allowing for colocated data fetching and route-driven state management. This made it easy to manage data dependencies at the route level and improved maintainability. Another feature I found especially helpful was Tanstack Router's built-in pre-fetching: my routing config is set up so that when a user hovers over a card for 50ms, the data for the likely next route is automatically fetched, resulting in a much smoother user experience. This is easily testable using the `SIMULATED_NETWORK_LAG` variable I set up for the project. Additionally, for the user stories in this project, having meaningful and flexible URL paths was important—enabling users to visit, share, or bookmark specific pages directly. Tanstack Router provides powerful handling of URL paths and search params, and seamless integration with browser navigation (back/forward, etc).
 
 - **API Type Safety & OpenAPI**: To bridge the monorepo, I implemented OpenAPI doc generation for API routes and response types. This allowed me to share types between backend and frontend, ensuring type safety and making it easier to update API contracts. I also wrote scripts to auto-generate types for both sides at once.
 
@@ -39,5 +39,24 @@
 - I learned a lot and enjoyed the project! It was a great opportunity to re-familiarize myself with Rails and apply holistic software design across backend and frontend.
 - The biggest challenge was session tracking—websockets would be more robust, but time constraints led me to try `sendBeacon`, which proved unreliable due to browser inconsistencies and limitations with POST requests. This learning shaped my final approach, which combined route change listeners and backend safeguards.
 - Luxon was chosen for time formatting due to its maturity and community support.
+
+## Development Approach & Engineering Practices
+
+Throughout the project, I took an iterative, full-stack approach—frequently switching between backend and frontend development to ensure tight integration and rapid feedback. I evolved the API as requirements became clearer, adding fields like `gradeExplanation` and `possibleScore`, and kept OpenAPI docs and type generation in sync to maintain type safety. 
+
+I placed a strong emphasis on user experience, implementing guardrails to prevent invalid navigation, handling edge cases, and simulating network lag to test loading states and prefetching. Regular refactoring and the use of pre-commit hooks helped keep the codebase clean and maintainable. I also prioritized documentation and testing, ensuring the project is robust and easy to understand for future contributors.
+
+Feature flags and environment variables, such as `SIMULATED_NETWORK_LAG`, were used to emulate production-like conditions and test user experience under different scenarios. The commit history reflects a focus on code quality, maintainability, and thoughtful engineering throughout the project lifecycle.
+
+## TODOs & Areas for Future Improvement
+
+- Investigate restructuring routes so assignments are a nested resource of users for improved RESTfulness and clarity.
+- Ensure all IDs are provided as strings from the API for consistency across the frontend and backend.
+- Security: Double-check that the `correct` field is never returned in the Assignment route from GET `/api/user_assignments/{id}` to prevent leaking answers.
+- Add animation to `QuestionCard` components as they unmount and mount for a smoother user experience.
+- Determine the source of the issue with `autoCodeSplitting` in `vite.config.ts` and re-enable once resolved.
+- Refactor to use React Nodes instead of `dangerouslySetInnerHTML` in `frontend/src/routes/users/$userId/assignments/$assignmentId/-constants.ts` for safer rendering.
+- Add `onError` handlers for save question mutations during AssignmentSession and when creating a session to improve error feedback for users.
+- Refactor backend controllers for consistent style and more modular, encapsulated logic, with particular attention to `user_assignment_questions_controller`.
 
 Thanks for the opportunity!
