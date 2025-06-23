@@ -70,6 +70,20 @@ function AssignmentQuestions() {
     nextQuestionIndex !== undefined &&
     nextQuestionIndex !== null;
 
+  // If q is set, but any previous question is unanswered, redirect to earliest unanswered
+  useEffect(() => {
+    if (q !== undefined) {
+      // Find the earliest unanswered question
+      const firstUnanswered = responses.findIndex(r => !r || r.trim() === '');
+      if (firstUnanswered !== -1 && firstUnanswered < Number(q) - 1) {
+        navigate({
+          search: prev => ({ ...prev, q: firstUnanswered + 1 }),
+          replace: true,
+        });
+      }
+    }
+  }, [q, responses, navigate]);
+
   useEffect(() => {
     if (canSetQParam) {
       navigate({
