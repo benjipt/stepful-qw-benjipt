@@ -188,7 +188,6 @@ function AssignmentQuestions() {
   // Update saveCurrentResponse to use the new flat payload
   const saveCurrentResponse = (onSuccess?: () => void) => {
     if (!currentQuestion) {
-      console.log('No currentQuestion, not saving');
       return;
     }
     const payload = {
