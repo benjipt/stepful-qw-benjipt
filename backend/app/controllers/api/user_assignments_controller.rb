@@ -6,9 +6,8 @@ class Api::UserAssignmentsController < ApplicationController
   # Each object contains the latest user assignment for each assignment
   # If no user is found, returns a 404 error with an appropriate message
   def index
-    # TODO: use .find instead of .find_by to raise an error automatically if user not found
-    user = User.find_by(id: params[:userId])
-    return render json: { error: 'User not found' }, status: :not_found unless user
+    # raise ActiveRecord::RecordNotFound if user not found
+    user = User.find(params[:userId])
 
     # Get the most recent user_assignment per assignment for this user
     latest_assignments = user.user_assignments
