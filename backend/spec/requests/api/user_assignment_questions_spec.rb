@@ -35,5 +35,48 @@ RSpec.describe 'UserAssignmentQuestions API', type: :request do
         run_test!
       end
     end
+
+    post 'Creates a user assignment question response' do
+      tags 'UserAssignmentQuestions'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter name: :userAssignmentId, in: :path, type: :string, description: 'User Assignment ID'
+      parameter name: :body, in: :body, schema: {
+        type: :object,
+        properties: {
+          assignmentQuestionId: { type: :integer },
+          response: { type: :string }
+        },
+        required: [ 'assignmentQuestionId', 'response' ]
+      }
+
+      response '201', 'response saved' do
+        schema type: :object, properties: { success: { type: :boolean } }, required: [ 'success' ]
+        run_test!
+      end
+
+      response '400', 'missing required params' do
+        schema type: :object, properties: { error: { type: :string } }, required: [ 'error' ]
+        run_test!
+      end
+
+      response '404', 'user assignment or assignment question not found' do
+        schema type: :object, properties: { error: { type: :string } }, required: [ 'error' ]
+        run_test!
+      end
+
+      response '422', 'unprocessable entity' do
+        schema type: :object, properties: { success: { type: :boolean } }, required: [ 'success' ]
+        run_test!
+      end
+
+      response '502', 'LLM grading failed' do
+        schema type: :object, properties: {
+          error: { type: :string },
+          details: { type: :string }
+        }, required: [ 'error', 'details' ]
+        run_test!
+      end
+    end
   end
 end

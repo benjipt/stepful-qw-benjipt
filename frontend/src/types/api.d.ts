@@ -66,7 +66,84 @@ export interface paths {
       };
     };
     put?: never;
-    post?: never;
+    /** Creates a user assignment question response */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description User Assignment ID */
+          userAssignmentId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          'application/json': {
+            assignmentQuestionId: number;
+            response: string;
+          };
+        };
+      };
+      responses: {
+        /** @description response saved */
+        201: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': {
+              success: boolean;
+            };
+          };
+        };
+        /** @description missing required params */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': {
+              error: string;
+            };
+          };
+        };
+        /** @description user assignment or assignment question not found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': {
+              error: string;
+            };
+          };
+        };
+        /** @description unprocessable entity */
+        422: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': {
+              success: boolean;
+            };
+          };
+        };
+        /** @description LLM grading failed */
+        502: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': {
+              error: string;
+              details: string;
+            };
+          };
+        };
+      };
+    };
     delete?: never;
     options?: never;
     head?: never;

@@ -34,6 +34,28 @@ class UserAssignment < ApplicationRecord
     status == STATUSES[:complete]
   end
 
+  # Checks if all questions have a response, and if so, closes sessions, grades, and completes the assignment
+  def complete_if_finished!
+    total_questions = assignment.assignment_questions.count
+    answered_questions = user_assignment_questions.where.not(response: [ nil, '' ]).count
+    return unless total_questions > 0 && answered_questions == total_questions
+
+    # Close any active sessions
+    UserAssignmentSession.close_stale_sessions_for(self)
+
+    # Grade: sum points for correct responses
+    correct_question_ids = user_assignment_questions.where(correct: true).pluck(:assignment_question_id)
+    total_points = AssignmentQuestion.where(id: correct_question_ids).sum(:points)
+    self.score = total_points
+
+    # Update total_time_spent
+    self.total_time_spent = user_assignment_sessions.sum(:total_time)
+
+    # Mark as complete
+    self.status = self.class.statuses[:complete]
+    save!
+  end
+
   private
 
   def score_presence_and_range_for_complete
