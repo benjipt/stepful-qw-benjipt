@@ -6,6 +6,8 @@ class UserAssignmentSession < ApplicationRecord
 
   MAX_SESSION_DURATION = 2.hours
 
+  after_create :populate_user_assignment_questions_if_first_session
+
   def active?
     session_start.present? && session_end.nil?
   end
@@ -27,6 +29,17 @@ class UserAssignmentSession < ApplicationRecord
       session.session_end = effective_end
       session.total_time = (session.session_end - session.session_start).to_i
       session.save!
+    end
+  end
+
+  private
+
+  def populate_user_assignment_questions_if_first_session
+    if user_assignment.user_assignment_questions.empty?
+      assignment_questions = user_assignment.assignment.assignment_questions
+      assignment_questions.find_each do |assignment_question|
+        user_assignment.user_assignment_questions.create!(assignment_id: user_assignment.assignment_id, assignment_question_id: assignment_question.id)
+      end
     end
   end
 end
