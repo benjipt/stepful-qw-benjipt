@@ -44,6 +44,42 @@ export const Route = createFileRoute(
   component: AssignmentQuestions,
 });
 
+// Q Search Param Logic ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
+// Returns the q param to navigate to, or undefined if no navigation is needed
+// Defined outside the component for performance and to keep logic clean and reusable
+const findFirstUnansweredIndex = (responses: string[]): number =>
+  responses.findIndex(r => !r || r.trim() === '');
+
+const shouldRedirectToFirstUnanswered = (
+  q: number | undefined,
+  firstUnanswered: number,
+): boolean =>
+  q !== undefined && firstUnanswered !== -1 && firstUnanswered < Number(q) - 1;
+
+const shouldSetToNextUnanswered = (
+  q: number | undefined,
+  nextQuestionIndex: number | undefined | null,
+): boolean =>
+  q === undefined &&
+  nextQuestionIndex !== undefined &&
+  nextQuestionIndex !== null;
+
+const getNextQParam = (
+  q: number | undefined,
+  responses: string[],
+  nextQuestionIndex: number | undefined | null,
+): number | undefined => {
+  const firstUnanswered = findFirstUnansweredIndex(responses);
+  if (shouldRedirectToFirstUnanswered(q, firstUnanswered)) {
+    return firstUnanswered + 1;
+  }
+  if (shouldSetToNextUnanswered(q, nextQuestionIndex)) {
+    return (nextQuestionIndex as number) + 1;
+  }
+  return undefined;
+};
+// <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Q Search Param Logic
+
 function AssignmentQuestions() {
   const { assignmentQuestions: questions, nextQuestionIndex } =
     Route.useLoaderData();
@@ -65,32 +101,16 @@ function AssignmentQuestions() {
   };
 
   // Query param navigation logic ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
-  const canSetQParam =
-    q === undefined &&
-    nextQuestionIndex !== undefined &&
-    nextQuestionIndex !== null;
-
-  // If q is set, but any previous question is unanswered, redirect to earliest unanswered
   useEffect(() => {
-    if (q !== undefined) {
-      // Find the earliest unanswered question
-      const firstUnanswered = responses.findIndex(r => !r || r.trim() === '');
-      if (firstUnanswered !== -1 && firstUnanswered < Number(q) - 1) {
-        navigate({
-          search: prev => ({ ...prev, q: firstUnanswered + 1 }),
-          replace: true,
-        });
-      }
-    }
-  }, [q, responses, navigate]);
-
-  useEffect(() => {
-    if (canSetQParam) {
+    const nextQ = getNextQParam(q, responses, nextQuestionIndex);
+    if (nextQ !== undefined && nextQ !== q) {
       navigate({
-        search: prev => ({ ...prev, q: nextQuestionIndex + 1 }),
+        search: prev => ({ ...prev, q: nextQ }),
+        replace: true,
       });
     }
-  }, [canSetQParam, nextQuestionIndex, navigate]);
+  }, [q, responses, nextQuestionIndex, navigate]);
+  // <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Query param navigation logic
 
   // Use q (1-based) as currentIndex (0-based)
   const currentIndex =
