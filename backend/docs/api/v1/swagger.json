@@ -20,6 +20,15 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "userAssignmentSessionId",
+            "in": "query",
+            "required": true,
+            "description": "User Assignment Session ID (must be active)",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -64,6 +73,12 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "userAssignmentSessionId is missing"
+          },
+          "403": {
+            "description": "session is invalid or closed"
           },
           "404": {
             "description": "user assignment not found"

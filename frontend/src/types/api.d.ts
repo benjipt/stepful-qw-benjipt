@@ -14,7 +14,10 @@ export interface paths {
     /** Returns all assignment questions for a given user assignment, including user responses if present */
     get: {
       parameters: {
-        query?: never;
+        query: {
+          /** @description User Assignment Session ID (must be active) */
+          userAssignmentSessionId: string;
+        };
         header?: never;
         path: {
           /** @description User Assignment ID */
@@ -38,6 +41,20 @@ export interface paths {
               points: number;
             }[];
           };
+        };
+        /** @description userAssignmentSessionId is missing */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content?: never;
+        };
+        /** @description session is invalid or closed */
+        403: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content?: never;
         };
         /** @description user assignment not found */
         404: {

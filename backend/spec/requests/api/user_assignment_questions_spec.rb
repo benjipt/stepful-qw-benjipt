@@ -6,6 +6,7 @@ RSpec.describe 'UserAssignmentQuestions API', type: :request do
       tags 'UserAssignmentQuestions'
       produces 'application/json'
       parameter name: :userAssignmentId, in: :path, type: :string, description: 'User Assignment ID'
+      parameter name: :userAssignmentSessionId, in: :query, type: :string, required: true, description: 'User Assignment Session ID (must be active)'
 
       response '200', 'questions found' do
         schema type: :array, items: {
@@ -19,6 +20,14 @@ RSpec.describe 'UserAssignmentQuestions API', type: :request do
           },
           required: [ 'questionId', 'content', 'choices', 'response', 'points' ]
         }
+        run_test!
+      end
+
+      response '400', 'userAssignmentSessionId is missing' do
+        run_test!
+      end
+
+      response '403', 'session is invalid or closed' do
         run_test!
       end
 

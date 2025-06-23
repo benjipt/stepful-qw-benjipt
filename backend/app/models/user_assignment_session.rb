@@ -6,6 +6,10 @@ class UserAssignmentSession < ApplicationRecord
 
   MAX_SESSION_DURATION = 2.hours
 
+  def active?
+    session_start.present? && session_end.nil?
+  end
+
   # Returns the effective end time (actual or capped)
   def effective_session_end
     session_end || [ session_start + MAX_SESSION_DURATION, Time.current ].min
