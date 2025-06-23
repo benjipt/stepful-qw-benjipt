@@ -1,5 +1,5 @@
 class UserAssignmentSummarySerializer < ActiveModel::Serializer
-  attributes :userAssignmentId, :title, :status, :score, :totalTimeSpent
+  attributes :userAssignmentId, :title, :status, :score, :totalTimeSpent, :possibleScore
   attribute :results, if: :complete?
 
   delegate :complete?, to: :object
@@ -14,6 +14,11 @@ class UserAssignmentSummarySerializer < ActiveModel::Serializer
 
   def totalTimeSpent
     object.total_time_spent
+  end
+
+  def possibleScore
+    # Sum of all points for each AssignmentQuestion belonging to this assignment
+    object.assignment.assignment_questions.sum(:points)
   end
 
   def results

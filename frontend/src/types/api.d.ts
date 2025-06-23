@@ -297,6 +297,8 @@ export interface paths {
               score?: number | null;
               /** @description Total time spent in seconds */
               totalTimeSpent?: number | null;
+              /** @description Total possible score for the assignment */
+              possibleScore: number;
               results?: {
                 totalQuestions: number;
                 totalCorrect: number;
@@ -354,6 +356,8 @@ export interface paths {
               score?: number | null;
               /** @description Total time spent in seconds */
               totalTimeSpent?: number | null;
+              /** @description Total possible score for the assignment */
+              possibleScore: number;
               results?: {
                 totalQuestions: number;
                 totalCorrect: number;

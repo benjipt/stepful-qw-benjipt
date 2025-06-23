@@ -366,6 +366,10 @@
                         "nullable": true,
                         "description": "Total time spent in seconds"
                       },
+                      "possibleScore": {
+                        "type": "integer",
+                        "description": "Total possible score for the assignment"
+                      },
                       "results": {
                         "type": "object",
                         "nullable": true,
@@ -417,7 +421,8 @@
                     "required": [
                       "userAssignmentId",
                       "title",
-                      "status"
+                      "status",
+                      "possibleScore"
                     ]
                   }
                 }
@@ -470,6 +475,10 @@
                       "nullable": true,
                       "description": "Total time spent in seconds"
                     },
+                    "possibleScore": {
+                      "type": "integer",
+                      "description": "Total possible score for the assignment"
+                    },
                     "results": {
                       "type": "object",
                       "nullable": true,
@@ -521,7 +530,8 @@
                   "required": [
                     "userAssignmentId",
                     "title",
-                    "status"
+                    "status",
+                    "possibleScore"
                   ]
                 }
               }

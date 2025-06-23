@@ -16,6 +16,7 @@ RSpec.describe 'api/user_assignments', type: :request do
             status: { type: :string },
             score: { type: :integer, nullable: true },
             totalTimeSpent: { type: :integer, nullable: true, description: 'Total time spent in seconds' },
+            possibleScore: { type: :integer, description: 'Total possible score for the assignment' },
             results: {
               type: :object,
               nullable: true,
@@ -40,7 +41,7 @@ RSpec.describe 'api/user_assignments', type: :request do
               required: %w[totalQuestions totalCorrect questions]
             }
           },
-          required: %w[userAssignmentId title status]
+          required: %w[userAssignmentId title status possibleScore]
         }
         let(:userId) { users(:one).id }
 
@@ -70,6 +71,7 @@ RSpec.describe 'api/user_assignments', type: :request do
             status: { type: :string },
             score: { type: :integer, nullable: true },
             totalTimeSpent: { type: :integer, nullable: true, description: 'Total time spent in seconds' },
+            possibleScore: { type: :integer, description: 'Total possible score for the assignment' },
             results: {
               type: :object,
               nullable: true,
@@ -94,7 +96,7 @@ RSpec.describe 'api/user_assignments', type: :request do
               required: %w[totalQuestions totalCorrect questions]
             }
           },
-          required: %w[userAssignmentId title status]
+          required: %w[userAssignmentId title status possibleScore]
 
         let(:id) { UserAssignment.first&.id || FactoryBot.create(:user_assignment).id }
 
