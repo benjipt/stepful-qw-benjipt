@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import RenderIf from '@/components/common/render-if';
 import { Button } from '@/components/ui/button';
+import { useCloseSessionOnExit } from '@/hooks/useCloseAssignmentSession';
 import { loadAssignmentQuestions } from '@/lib/api/loaders';
 import QuestionCard from './-components/question-card';
 
@@ -111,43 +112,8 @@ function AssignmentQuestions() {
   const sessionId = Route.useParams().sessionId;
   const sessionIdNum = Number(sessionId);
 
-  // Track if session is already closed to avoid duplicate calls
-  const [sessionClosed, setSessionClosed] = useState(false);
-
-  // Helper to close session (uses sendBeacon for unload, otherwise API call)
-  const closeSession = (useBeacon = false) => {
-    if (sessionClosed || !sessionIdNum) return;
-    setSessionClosed(true);
-    const url = `${import.meta.env.VITE_API_BASE_URL || ''}/api/user_assignment_sessions/${sessionIdNum}`;
-    if (useBeacon && navigator.sendBeacon) {
-      // PATCH with sendBeacon: send empty body, server should handle it
-      const headers = { type: 'application/json' };
-      navigator.sendBeacon(url, new Blob([JSON.stringify({})], headers));
-    } else {
-      // Use imported mutation (async, but fire and forget)
-      closeUserAssignmentSession({ id: sessionIdNum }).catch(() => {});
-    }
-  };
-
-  // Browser/tab close or visibility change
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'hidden') {
-        closeSession(true);
-      }
-    };
-    const handleBeforeUnload = () => {
-      closeSession(true);
-    };
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-      // React unmount fallback
-      closeSession();
-    };
-  }, [sessionIdNum, sessionClosed]);
+  // Invoke hook for session closing logic when tab is closed, unfocused, or if user closes the browser
+  useCloseSessionOnExit(sessionIdNum);
 
   // Centralized responses state
   const [responses, setResponses] = useState(() =>
