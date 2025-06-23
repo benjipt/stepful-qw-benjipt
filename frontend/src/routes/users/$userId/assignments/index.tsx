@@ -42,7 +42,7 @@ export const Route = createFileRoute('/users/$userId/assignments/')({
 const ASSIGNMENT_START_ROUTE = '/users/$userId/assignments/$assignmentId';
 const ASSIGNMENT_SUMMARY_ROUTE =
   '/users/$userId/assignments/$assignmentId/summary';
-const SECTION_HEADING_CLASS = 'text-lg font-medium mb-2';
+const SECTION_HEADING_CLASS = 'text-lg font-medium text-center mb-2';
 
 const getAssignmentRoute = (status: string): string =>
   status === 'complete' ? ASSIGNMENT_SUMMARY_ROUTE : ASSIGNMENT_START_ROUTE;
@@ -54,43 +54,47 @@ function UserAssignments() {
 
   return (
     <div className='page'>
-      <div className='flex flex-col gap-4 px-8 items-center w-full'>
-        <RenderIf condition={available.length > 0}>
-          <h2 className={SECTION_HEADING_CLASS}>Available</h2>
-          {available.map(
-            ({ userAssignmentId, title, status, score, totalTimeSpent }) => (
-              <AssignmentCard
-                key={userAssignmentId}
-                userAssignmentId={userAssignmentId}
-                title={title}
-                status={status}
-                score={score ?? undefined}
-                totalTimeSpent={totalTimeSpent ?? undefined}
-                userId={userId}
-                route={getAssignmentRoute(status)}
-              />
-            ),
-          )}
-        </RenderIf>
-        <RenderIf condition={complete.length > 0}>
-          <h2 className={SECTION_HEADING_CLASS + ' text-emerald-800 mt-8'}>
-            Completed
-          </h2>
-          {complete.map(
-            ({ userAssignmentId, title, status, score, totalTimeSpent }) => (
-              <AssignmentCard
-                key={userAssignmentId}
-                userAssignmentId={userAssignmentId}
-                title={title}
-                status={status}
-                score={score ?? undefined}
-                totalTimeSpent={totalTimeSpent ?? undefined}
-                userId={userId}
-                route={getAssignmentRoute(status)}
-              />
-            ),
-          )}
-        </RenderIf>
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-8 px-8 w-full items-start'>
+        <div className='flex flex-col gap-4'>
+          <RenderIf condition={available.length > 0}>
+            <h2 className={SECTION_HEADING_CLASS}>Available</h2>
+            {available.map(
+              ({ userAssignmentId, title, status, score, totalTimeSpent }) => (
+                <AssignmentCard
+                  key={userAssignmentId}
+                  userAssignmentId={userAssignmentId}
+                  title={title}
+                  status={status}
+                  score={score ?? undefined}
+                  totalTimeSpent={totalTimeSpent ?? undefined}
+                  userId={userId}
+                  route={getAssignmentRoute(status)}
+                />
+              ),
+            )}
+          </RenderIf>
+        </div>
+        <div className='flex flex-col gap-4'>
+          <RenderIf condition={complete.length > 0}>
+            <h2 className={SECTION_HEADING_CLASS + ' text-emerald-700'}>
+              Completed
+            </h2>
+            {complete.map(
+              ({ userAssignmentId, title, status, score, totalTimeSpent }) => (
+                <AssignmentCard
+                  key={userAssignmentId}
+                  userAssignmentId={userAssignmentId}
+                  title={title}
+                  status={status}
+                  score={score ?? undefined}
+                  totalTimeSpent={totalTimeSpent ?? undefined}
+                  userId={userId}
+                  route={getAssignmentRoute(status)}
+                />
+              ),
+            )}
+          </RenderIf>
+        </div>
       </div>
     </div>
   );
