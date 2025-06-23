@@ -64,12 +64,21 @@ const shouldSetToNextUnanswered = (
   nextQuestionIndex !== undefined &&
   nextQuestionIndex !== null;
 
+const isInvalidQ = (q: number | undefined, questionsLength: number): boolean =>
+  q !== undefined && (isNaN(q) || q < 1 || q > questionsLength);
+
 const getNextQParam = (
   q: number | undefined,
   responses: string[],
   nextQuestionIndex: number | undefined | null,
+  questionsLength: number,
 ): number | undefined => {
   const firstUnanswered = findFirstUnansweredIndex(responses);
+  if (isInvalidQ(q, questionsLength)) {
+    // If q is invalid, reset to next unanswered or first question
+    if (firstUnanswered !== -1) return firstUnanswered + 1;
+    return 1;
+  }
   if (shouldRedirectToFirstUnanswered(q, firstUnanswered)) {
     return firstUnanswered + 1;
   }
@@ -102,14 +111,19 @@ function AssignmentQuestions() {
 
   // Query param navigation logic ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
   useEffect(() => {
-    const nextQ = getNextQParam(q, responses, nextQuestionIndex);
+    const nextQ = getNextQParam(
+      q,
+      responses,
+      nextQuestionIndex,
+      questions.length,
+    );
     if (nextQ !== undefined && nextQ !== q) {
       navigate({
         search: prev => ({ ...prev, q: nextQ }),
         replace: true,
       });
     }
-  }, [q, responses, nextQuestionIndex, navigate]);
+  }, [q, responses, nextQuestionIndex, questions.length, navigate]);
   // <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Query param navigation logic
 
   // Use q (1-based) as currentIndex (0-based)
