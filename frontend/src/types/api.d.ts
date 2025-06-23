@@ -308,6 +308,7 @@ export interface paths {
                   response: string;
                   correct: boolean;
                   points: number;
+                  gradeExplanation: string | null;
                 }[];
               } | null;
             }[];
@@ -367,6 +368,7 @@ export interface paths {
                   response: string;
                   correct: boolean;
                   points: number;
+                  gradeExplanation: string | null;
                 }[];
               } | null;
             };

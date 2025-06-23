@@ -32,9 +32,10 @@ RSpec.describe 'api/user_assignments', type: :request do
                       content: { type: :string },
                       response: { type: :string },
                       correct: { type: :boolean },
-                      points: { type: :integer }
+                      points: { type: :integer },
+                      gradeExplanation: { type: :string, nullable: true }
                     },
-                    required: %w[id content response correct points]
+                    required: %w[id content response correct points gradeExplanation]
                   }
                 }
               },
@@ -87,9 +88,10 @@ RSpec.describe 'api/user_assignments', type: :request do
                       content: { type: :string },
                       response: { type: :string },
                       correct: { type: :boolean },
-                      points: { type: :integer }
+                      points: { type: :integer },
+                      gradeExplanation: { type: :string, nullable: true }
                     },
-                    required: %w[id content response correct points]
+                    required: %w[id content response correct points gradeExplanation]
                   }
                 }
               },
