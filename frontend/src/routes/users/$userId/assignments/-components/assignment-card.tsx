@@ -1,13 +1,7 @@
-import RenderIf from '@/components/common/render-if';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { cn, humanizeDuration, humanizeStatus } from '@/lib/utils';
 import { Link } from '@tanstack/react-router';
+
+import AssignmentMeta from '@/components/common/assignment-meta';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface Props {
   userAssignmentId: number;
@@ -28,11 +22,8 @@ const AssignmentCard: React.FC<Props> = ({
   userId,
   route,
 }) => {
-  // Render helpers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
-  const canRenderStatus =
-    status === 'not_yet_started' || status === 'in_progress';
-  const inProgress = status === 'in_progress';
-  // <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Render helpers
+  // Only render status if it's not 'complete' on the page where this component is currently used.
+  const canRenderStatus = status !== 'complete';
 
   return (
     <Link
@@ -44,29 +35,14 @@ const AssignmentCard: React.FC<Props> = ({
       <Card className='hover-interactive w-full'>
         <CardHeader>
           <CardTitle>{title}</CardTitle>
-          <RenderIf condition={canRenderStatus}>
-            <CardDescription
-              className={cn(
-                'font-semibold',
-                inProgress ? 'text-amber-700' : 'text-sky-800',
-              )}
-            >
-              {humanizeStatus(status)}
-              {inProgress && ': Paused'}
-            </CardDescription>
-          </RenderIf>
         </CardHeader>
         <CardContent>
-          <RenderIf condition={!!score}>
-            <p className='text-sm'>
-              Score: <span className='font-mono tracking-tight'>{score}</span>
-            </p>
-          </RenderIf>
-          <RenderIf condition={!!totalTimeSpent}>
-            <p className='text-sm'>
-              Total Time: {humanizeDuration(totalTimeSpent ?? 0)}
-            </p>
-          </RenderIf>
+          <AssignmentMeta
+            title={undefined}
+            status={canRenderStatus ? status : undefined}
+            score={score}
+            timeDuration={totalTimeSpent}
+          />
         </CardContent>
       </Card>
     </Link>
