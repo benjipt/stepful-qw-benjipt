@@ -4,6 +4,10 @@ import AssignmentMeta from '@/components/common/assignment-meta';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { loadUserAssignmentById } from '@/lib/api/loaders';
+import {
+  IN_PROGRESS_INSTRUCTIONS,
+  NOT_YET_STARTED_INSTRUCTIONS,
+} from './-constants';
 
 export const Route = createFileRoute(
   '/users/$userId/assignments/$assignmentId/',
@@ -30,6 +34,9 @@ function Assignment() {
   const assignment = Route.useLoaderData();
   const { status, totalTimeSpent, title } = assignment;
   const isInProgress = status === 'in_progress';
+  const instructions = isInProgress
+    ? IN_PROGRESS_INSTRUCTIONS
+    : NOT_YET_STARTED_INSTRUCTIONS;
 
   return (
     <div className='page flex flex-col items-center justify-center min-h-[60vh] px-4'>
@@ -47,47 +54,10 @@ function Assignment() {
             timeDuration={isInProgress ? totalTimeSpent! : undefined}
             className='mb-6 items-start'
           />
-          {/* TODO: abstract these instructions to constants */}
           <ul className='list-disc pl-6 space-y-2 text-neutral-800 text-base'>
-            {isInProgress ? (
-              <>
-                <li>Your assignment is currently in progress.</li>
-                <li>
-                  You can continue where you left off. All your answers are
-                  saved automatically.
-                </li>
-                <li>
-                  You may change your answers as many times as you like before
-                  submitting.
-                </li>
-                <li>
-                  If you leave or close the page, your timer will pause and
-                  resume when you return.
-                </li>
-              </>
-            ) : (
-              <>
-                <li>
-                  There is <span className='font-semibold'>no time limit</span>,
-                  but your time will be tracked while taking the assignment.
-                </li>
-                <li>
-                  If you leave or close the page, your timer will pause and
-                  resume when you return.
-                </li>
-                <li>
-                  All answers are{' '}
-                  <span className='font-semibold'>saved automatically</span> as
-                  you progress. You can safely return later without losing your
-                  work.
-                </li>
-                <li>
-                  You may{' '}
-                  <span className='font-semibold'>change your answers</span> as
-                  many times as you like before submitting.
-                </li>
-              </>
-            )}
+            {instructions.map((item, i) => (
+              <li key={i} dangerouslySetInnerHTML={{ __html: item }} />
+            ))}
           </ul>
         </CardContent>
       </Card>
