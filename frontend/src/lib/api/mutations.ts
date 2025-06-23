@@ -1,7 +1,7 @@
 import type { paths } from '@/types/api';
 import { API_BASE_URL } from '.';
 
-export const POST_USER_ASSIGNMENT_SESSIONS_URL = `${API_BASE_URL}/api/user_assignment_sessions`;
+const POST_USER_ASSIGNMENT_SESSIONS_URL = `${API_BASE_URL}/api/user_assignment_sessions`;
 
 /**
  * Request type for creating a user assignment session
@@ -56,5 +56,41 @@ export async function closeUserAssignmentSession({
     headers: { 'Content-Type': 'application/json' },
   });
   if (!res.ok) throw new Error('Failed to close user assignment session');
+  return res.json();
+}
+
+const POST_USER_ASSIGNMENT_QUESTION_URL = (userAssignmentId: number) =>
+  `${API_BASE_URL}/api/user_assignments/${userAssignmentId}/questions`;
+
+/**
+ * Request type for saving a user assignment question response
+ */
+export type SaveUserAssignmentQuestionRequest = {
+  userAssignmentId: number;
+  body: NonNullable<
+    paths['/api/user_assignments/{userAssignmentId}/questions']['post']['requestBody']
+  >['content']['application/json'];
+};
+
+/**
+ * Response type for saving a user assignment question response
+ */
+export type SaveUserAssignmentQuestionResponse =
+  paths['/api/user_assignments/{userAssignmentId}/questions']['post']['responses'][201]['content']['application/json'];
+
+/**
+ * Mutation function to save a user assignment question response
+ */
+export async function saveUserAssignmentQuestion({
+  userAssignmentId,
+  body,
+}: SaveUserAssignmentQuestionRequest): Promise<SaveUserAssignmentQuestionResponse> {
+  const res = await fetch(POST_USER_ASSIGNMENT_QUESTION_URL(userAssignmentId), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok)
+    throw new Error('Failed to save user assignment question response');
   return res.json();
 }
