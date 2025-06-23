@@ -53,6 +53,11 @@ export async function loadAssignmentQuestions(
   const res = await fetch(
     `${API_BASE_URL}/api/user_assignments/${userAssignmentId}/questions?${query}`,
   );
+  if (res.status === 403) {
+    const error = new Error('Forbidden');
+    (error as any).status = 403;
+    throw error;
+  }
   if (!res.ok) throw new Error('Failed to fetch assignment questions');
   return res.json();
 }

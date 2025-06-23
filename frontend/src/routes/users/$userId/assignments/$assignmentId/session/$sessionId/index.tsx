@@ -10,22 +10,30 @@ export const Route = createFileRoute(
   '/users/$userId/assignments/$assignmentId/session/$sessionId/',
 )({
   loader: async ({ params }) => {
-    const assignmentQuestions = await loadAssignmentQuestions({
-      userAssignmentSessionId: params.sessionId,
-      userAssignmentId: params.assignmentId,
-    });
-    const nextQuestionIndex = assignmentQuestions.findIndex(q => !q.response);
-    // If all questions have a response, redirect to summary
-    if (nextQuestionIndex === -1) {
-      throw redirect({
-        to: '/users/$userId/assignments/$assignmentId/summary',
-        params: {
-          userId: params.userId,
-          assignmentId: params.assignmentId,
-        },
+    try {
+      const assignmentQuestions = await loadAssignmentQuestions({
+        userAssignmentSessionId: params.sessionId,
+        userAssignmentId: params.assignmentId,
       });
+      const nextQuestionIndex = assignmentQuestions.findIndex(q => !q.response);
+      // If all questions have a response, redirect to summary
+      if (nextQuestionIndex === -1) {
+        throw redirect({
+          to: '/users/$userId/assignments/$assignmentId/summary',
+          params,
+        });
+      }
+      return { assignmentQuestions, nextQuestionIndex };
+    } catch (err: any) {
+      if (err.status === 403) {
+        // Invalid session or session is closed
+        throw redirect({
+          to: '/users/$userId/assignments/$assignmentId',
+          params,
+        });
+      }
+      throw err;
     }
-    return { assignmentQuestions, nextQuestionIndex };
   },
   // validateSearch parses and validates the 'q' search param from the URL.
   // If 'q' is present, it is converted to a number; if not, it is set to undefined.
