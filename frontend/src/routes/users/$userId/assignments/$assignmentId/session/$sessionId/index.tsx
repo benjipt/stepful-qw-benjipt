@@ -1,3 +1,4 @@
+import { closeUserAssignmentSession } from '@/lib/api/mutations';
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 
@@ -41,6 +42,17 @@ export const Route = createFileRoute(
   validateSearch: search => ({
     q: search.q !== undefined ? Number(search.q) : undefined,
   }),
+  // Add onLeave to close session when leaving the route
+  onLeave: async ({ params }) => {
+    const sessionIdNum = Number(params.sessionId);
+    if (sessionIdNum) {
+      try {
+        await closeUserAssignmentSession({ id: sessionIdNum });
+      } catch (e) {
+        // Ignore errors
+      }
+    }
+  },
   component: AssignmentQuestions,
 });
 
@@ -94,6 +106,48 @@ function AssignmentQuestions() {
     Route.useLoaderData();
   const { q } = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
+
+  // Get sessionId from route params
+  const sessionId = Route.useParams().sessionId;
+  const sessionIdNum = Number(sessionId);
+
+  // Track if session is already closed to avoid duplicate calls
+  const [sessionClosed, setSessionClosed] = useState(false);
+
+  // Helper to close session (uses sendBeacon for unload, otherwise API call)
+  const closeSession = (useBeacon = false) => {
+    if (sessionClosed || !sessionIdNum) return;
+    setSessionClosed(true);
+    const url = `${import.meta.env.VITE_API_BASE_URL || ''}/api/user_assignment_sessions/${sessionIdNum}`;
+    if (useBeacon && navigator.sendBeacon) {
+      // PATCH with sendBeacon: send empty body, server should handle it
+      const headers = { type: 'application/json' };
+      navigator.sendBeacon(url, new Blob([JSON.stringify({})], headers));
+    } else {
+      // Use imported mutation (async, but fire and forget)
+      closeUserAssignmentSession({ id: sessionIdNum }).catch(() => {});
+    }
+  };
+
+  // Browser/tab close or visibility change
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        closeSession(true);
+      }
+    };
+    const handleBeforeUnload = () => {
+      closeSession(true);
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      // React unmount fallback
+      closeSession();
+    };
+  }, [sessionIdNum, sessionClosed]);
 
   // Centralized responses state
   const [responses, setResponses] = useState(() =>
