@@ -48,3 +48,13 @@ export default tseslint.config({
   },
 })
 ```
+
+## Note for Reviewers: node_modules Symlink
+
+If you encounter errors about missing dependencies in `frontend/node_modules`, create a symlink after installing dependencies:
+
+```sh
+ln -s ../node_modules ./frontend/node_modules
+```
+
+This is needed because dependencies are hoisted to the project root.
