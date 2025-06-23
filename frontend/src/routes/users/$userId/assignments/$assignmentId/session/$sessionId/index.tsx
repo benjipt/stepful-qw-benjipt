@@ -113,6 +113,7 @@ function AssignmentQuestions() {
   const sessionIdNum = Number(sessionId);
 
   // Invoke hook for session closing logic when tab is closed, unfocused, or if user closes the browser
+  // TODO: This is not working as expected. Notes added in the hook file.
   useCloseSessionOnExit(sessionIdNum);
 
   // Centralized responses state
