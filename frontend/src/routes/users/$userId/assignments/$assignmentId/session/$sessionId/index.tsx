@@ -1,3 +1,5 @@
+import { useMutation } from '@tanstack/react-query';
+
 import { closeUserAssignmentSession } from '@/lib/api/mutations';
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
@@ -6,6 +8,11 @@ import RenderIf from '@/components/common/render-if';
 import { Button } from '@/components/ui/button';
 import { useCloseSessionOnExit } from '@/hooks/useCloseAssignmentSession';
 import { loadAssignmentQuestions } from '@/lib/api/loaders';
+import { saveUserAssignmentQuestion } from '@/lib/api/mutations';
+import type {
+  SaveUserAssignmentQuestionRequest,
+  SaveUserAssignmentQuestionResponse,
+} from '@/lib/api/mutations';
 import QuestionCard from './-components/question-card';
 
 export const Route = createFileRoute(
@@ -108,9 +115,10 @@ function AssignmentQuestions() {
   const { q } = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
 
-  // Get sessionId from route params
-  const sessionId = Route.useParams().sessionId;
+  const params = Route.useParams();
+  const sessionId = params.sessionId;
   const sessionIdNum = Number(sessionId);
+  const assignmentIdNum = Number(params.assignmentId);
 
   // Invoke hook for session closing logic when tab is closed, unfocused, or if user closes the browser
   // TODO: This is not working as expected. Notes added in the hook file.
@@ -166,6 +174,39 @@ function AssignmentQuestions() {
   const currentResponse = responses[currentIndex] ?? '';
   const allAnswered = responses.every(r => r && r.trim() !== '');
 
+  // Saving responses ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
+  // Mutation for saving a user assignment question response
+  const saveQuestionMutation = useMutation<
+    SaveUserAssignmentQuestionResponse,
+    Error,
+    SaveUserAssignmentQuestionRequest
+  >({
+    mutationFn: body => saveUserAssignmentQuestion(body),
+    // TODO: add onSuccess/onError handlers here
+  });
+
+  // Update saveCurrentResponse to use the new flat payload
+  const saveCurrentResponse = (onSuccess?: () => void) => {
+    if (!currentQuestion) {
+      console.log('No currentQuestion, not saving');
+      return;
+    }
+    const payload = {
+      userAssignmentId: assignmentIdNum,
+      assignmentQuestionId: currentQuestion.questionId,
+      response: currentResponse,
+    };
+    saveQuestionMutation.mutate(payload, onSuccess ? { onSuccess } : undefined);
+  };
+
+  // Handler to save response and go to next question
+  const handleNext = () =>
+    saveCurrentResponse(() => goToIndex(currentIndex + 1));
+
+  // Handler to save response and submit (for last question)
+  const handleSubmit = () => saveCurrentResponse();
+  // <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Saving responses
+
   return (
     <div className='page'>
       {currentQuestion && (
@@ -184,15 +225,23 @@ function AssignmentQuestions() {
         </RenderIf>
         <RenderIf condition={!isLast}>
           <Button
-            onClick={() => goToIndex(currentIndex + 1)}
-            disabled={!currentResponse || currentResponse.trim() === ''}
+            onClick={handleNext}
+            disabled={
+              !currentResponse ||
+              currentResponse.trim() === '' ||
+              saveQuestionMutation.isPending
+            }
           >
-            Next
+            {saveQuestionMutation.isPending ? 'Saving...' : 'Next'}
           </Button>
         </RenderIf>
         {isLast && (
-          <Button variant='default' disabled={!allAnswered}>
-            Submit
+          <Button
+            variant='default'
+            disabled={!allAnswered || saveQuestionMutation.isPending}
+            onClick={handleSubmit}
+          >
+            {saveQuestionMutation.isPending ? 'Grading...' : 'Submit'}
           </Button>
         )}
       </div>

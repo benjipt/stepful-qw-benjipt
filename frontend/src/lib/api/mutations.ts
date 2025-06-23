@@ -65,11 +65,11 @@ const POST_USER_ASSIGNMENT_QUESTION_URL = (userAssignmentId: number) =>
 /**
  * Request type for saving a user assignment question response
  */
+// FLAT version for Rails compatibility
 export type SaveUserAssignmentQuestionRequest = {
   userAssignmentId: number;
-  body: NonNullable<
-    paths['/api/user_assignments/{userAssignmentId}/questions']['post']['requestBody']
-  >['content']['application/json'];
+  assignmentQuestionId: number;
+  response: string;
 };
 
 /**
@@ -83,12 +83,17 @@ export type SaveUserAssignmentQuestionResponse =
  */
 export async function saveUserAssignmentQuestion({
   userAssignmentId,
-  body,
+  assignmentQuestionId,
+  response,
 }: SaveUserAssignmentQuestionRequest): Promise<SaveUserAssignmentQuestionResponse> {
   const res = await fetch(POST_USER_ASSIGNMENT_QUESTION_URL(userAssignmentId), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
+    body: JSON.stringify({
+      userAssignmentId,
+      assignmentQuestionId,
+      response,
+    }),
   });
   if (!res.ok)
     throw new Error('Failed to save user assignment question response');
