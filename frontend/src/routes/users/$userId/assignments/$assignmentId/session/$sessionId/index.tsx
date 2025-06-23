@@ -204,7 +204,16 @@ function AssignmentQuestions() {
     saveCurrentResponse(() => goToIndex(currentIndex + 1));
 
   // Handler to save response and submit (for last question)
-  const handleSubmit = () => saveCurrentResponse();
+  const handleSubmit = () =>
+    saveCurrentResponse(() =>
+      navigate({
+        to: '/users/$userId/assignments/$assignmentId/summary',
+        params: {
+          userId: params.userId,
+          assignmentId: params.assignmentId,
+        },
+      }),
+    );
   // <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Saving responses
 
   return (
