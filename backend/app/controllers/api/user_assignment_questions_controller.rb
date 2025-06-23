@@ -95,7 +95,7 @@ class Api::UserAssignmentQuestionsController < ApplicationController
       user_assignment.complete_if_finished!
       render json: { success: true }, status: :created
     else
-      render json: { success: false }, status: :unprocessable_entity
+      render json: { success: false, errors: user_assignment_question.errors.full_messages }, status: :unprocessable_entity
     end
   end
 end
