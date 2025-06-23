@@ -92,7 +92,7 @@ function Assignment() {
         }
         disabled={createSession.isPending}
       >
-        {createSession.isPending ? 'Loading...' : 'Continue'}
+        {createSession.isPending ? 'Starting...' : 'Continue'}
       </Button>
     </div>
   );
