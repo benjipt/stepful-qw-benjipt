@@ -12,14 +12,14 @@ This monorepo contains a Vite + React (TypeScript) frontend and a Ruby on Rails 
 └── README.md
 ```
 
-## Getting Started
-
-### Prerequisites
+## Prerequisites
 - [asdf](https://asdf-vm.com/) (version manager)
 - [bun](https://bun.sh/) (for frontend)
 - [Ruby](https://www.ruby-lang.org/) (handled by asdf)
 - [Rails](https://rubyonrails.org/) (will be installed via gem)
 - [Node.js](https://nodejs.org/) (for tooling, handled by asdf)
+
+## Getting Started
 
 Clone the repo and install tools with asdf:
 
@@ -27,6 +27,48 @@ Clone the repo and install tools with asdf:
 git clone git@github.com:benjipt/stepful-qw-benjipt.git
 cd stepful-qw-benjipt
 asdf install
+```
+
+Copy the sample environment file and create your own `.env`:
+
+```sh
+cp .env.sample .env
+```
+
+Install dependencies in the root directory using Bun:
+
+```sh
+bun install
+```
+
+Install Ruby and Rails dependencies in the backend directory:
+
+```sh
+cd backend
+bundle install
+cd ..
+```
+
+If you encounter errors about missing dependencies in `frontend/node_modules`, create a symlink after installing dependencies:
+
+```sh
+ln -s ../node_modules ./frontend/node_modules
+```
+
+This is needed because dependencies are hoisted to the project root.
+
+## Running the App
+
+From the root directory, start the backend and frontend servers in separate terminal tabs:
+
+Start the backend:
+```sh
+bun dev:be
+```
+
+Start the frontend (in a new terminal tab):
+```sh
+bun dev:fe
 ```
 
 ## Linting, Formatting & Commits
