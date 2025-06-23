@@ -59,4 +59,8 @@ Feature flags and environment variables, such as `SIMULATED_NETWORK_LAG`, were u
 - Add `onError` handlers for save question mutations during AssignmentSession and when creating a session to improve error feedback for users.
 - Refactor backend controllers for consistent style and more modular, encapsulated logic, with particular attention to `user_assignment_questions_controller`.
 
+## Testing Approach
+
+Both Minitest and RSpec are present in this project. I used the default Minitest for quick and easy local testing during development, while RSpec was used primarily for generating OpenAPI documentation, as it integrates well with the rswag gem. This allowed me to balance speed and convenience in local development with robust API documentation generation.
+
 Thanks for the opportunity!
