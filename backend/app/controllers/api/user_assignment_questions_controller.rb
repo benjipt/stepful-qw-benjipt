@@ -51,10 +51,12 @@ class Api::UserAssignmentQuestionsController < ApplicationController
     assignment_question = AssignmentQuestion.find(assignment_question_id)
 
     correct = nil
+    grade_explanation = nil
     if assignment_question.correct_choice.present?
       correct = (response_text.strip == assignment_question.correct_choice.strip)
+      # Do not set grade_explanation for exact match grading
     else
-      # Call LLM proxy to grade
+      # Call LLM proxy to grade and explain
       require 'net/http'
       require 'uri'
       require 'json'
@@ -65,7 +67,7 @@ class Api::UserAssignmentQuestionsController < ApplicationController
         'Content-Type' => 'application/json',
         'Authorization' => 'Bearer thompson.benji@gmail.com'
       })
-      prompt = "Is the following answer correct for the question?\n\nQuestion: #{assignment_question.question_content}\nAnswer: #{response_text}\n\nReply with only 'true' or 'false'."
+      prompt = "Given the following question and user answer, return a JSON object with two fields: 'correct' (true or false) and 'explanation' (a 1-2 sentence explanation of the result). Only return valid JSON.\n\nQuestion: #{assignment_question.question_content}\nAnswer: #{response_text}"
       req.body = {
         model: 'gpt-4o-2024-08-06',
         messages: [
@@ -77,7 +79,18 @@ class Api::UserAssignmentQuestionsController < ApplicationController
         res = http.request(req)
         llm_result = JSON.parse(res.body)
         llm_content = llm_result.dig('choices', 0, 'message', 'content')
-        correct = llm_content.to_s.downcase.include?('true')
+        llm_json = JSON.parse(llm_content) rescue nil
+        if llm_json && llm_json.key?('correct')
+          correct = llm_json['correct']
+          grade_explanation = llm_json['explanation'] || nil
+        else
+          # fallback: try to extract explanation from JSON string
+          explanation_match = llm_content.to_s.match(/"explanation"\s*:\s*"([^"]+)"/)
+          grade_explanation = explanation_match ? explanation_match[1] : nil
+          correct = llm_content.to_s.downcase.include?('true')
+          # If still nothing, fallback to the whole string
+          grade_explanation ||= llm_content
+        end
       rescue => e
         return render json: { error: 'LLM grading failed', details: e.message }, status: :bad_gateway
       end
@@ -88,7 +101,8 @@ class Api::UserAssignmentQuestionsController < ApplicationController
       assignment_id: user_assignment.assignment_id,
       assignment_question_id: assignment_question.id,
       response: response_text,
-      correct: correct
+      correct: correct,
+      grade_explanation: grade_explanation
     )
 
     if user_assignment_question.save
