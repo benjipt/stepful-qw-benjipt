@@ -7,6 +7,7 @@ interface AssignmentMetaProps {
   title?: string;
   status?: string;
   score?: number;
+  possibleScore?: number;
   timeDuration?: number;
   className?: string;
 }
@@ -15,6 +16,7 @@ const AssignmentMeta: React.FC<AssignmentMetaProps> = ({
   title,
   status,
   score,
+  possibleScore,
   timeDuration,
   className = '',
 }) => {
@@ -50,7 +52,9 @@ const AssignmentMeta: React.FC<AssignmentMetaProps> = ({
         <RenderIf condition={!!score}>
           <div className='flex text-sm text-neutral-500'>
             <dt className='mr-1'>Score:</dt>
-            <dd className='font-semibold text-neutral-900'>{score}</dd>
+            <dd className='font-semibold text-neutral-900'>
+              {score} {possibleScore && `/ ${possibleScore}`}
+            </dd>
           </div>
         </RenderIf>
         <RenderIf condition={!!timeDuration}>

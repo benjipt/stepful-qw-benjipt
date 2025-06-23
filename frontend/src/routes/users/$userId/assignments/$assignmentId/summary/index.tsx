@@ -28,7 +28,8 @@ export const Route = createFileRoute(
 
 function UserAssignmentSummary() {
   const assignment = Route.useLoaderData();
-  const { title, score, totalTimeSpent, results, status } = assignment;
+  const { title, score, possibleScore, totalTimeSpent, results, status } =
+    assignment;
 
   // Results and score should always be truthy on this page.
   return (
@@ -37,6 +38,7 @@ function UserAssignmentSummary() {
         <h1 className='text-2xl font-bold mb-2 text-neutral-900'>{title}</h1>
         <AssignmentMeta
           score={score ?? 0}
+          possibleScore={possibleScore}
           timeDuration={totalTimeSpent ?? 0}
           status={status}
           className='mb-6 items-start'
